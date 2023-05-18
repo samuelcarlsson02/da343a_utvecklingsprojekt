@@ -1,4 +1,4 @@
-package view;
+package server.view;
 
 public class ServerLogger extends javax.swing.JFrame {
 
