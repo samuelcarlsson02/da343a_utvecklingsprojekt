@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
 /**
@@ -154,3 +150,4 @@ public class ServerLogger extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> secondTimeComboBox;
     // End of variables declaration
 }
+
