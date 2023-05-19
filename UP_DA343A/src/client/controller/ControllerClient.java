@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.model.ContactList;
 import client.model.Message;
 
 import javax.swing.*;
@@ -8,9 +9,10 @@ import java.util.ArrayList;
 public class ControllerClient {
     private String username;
     private ImageIcon image;
+    private ContactList contactList;
 
     public ControllerClient(){
-
+    
     }
 
     public boolean connectToServer(String username, ImageIcon image){
