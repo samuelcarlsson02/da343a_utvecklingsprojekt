@@ -2,6 +2,7 @@ package server.model;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Message {
@@ -9,10 +10,10 @@ public class Message {
     private User[] recipientList;
     private String text;
     private ImageIcon image;
-    private Date timeReceived;
-    private Date timeDelivered;
+    private LocalDateTime timeReceived;
+    private LocalDateTime timeDelivered;
 
-    public Message(User sender, User[] recipientList, String text, ImageIcon image, Date timeReceived, Date timeDelivered) {
+    public Message(User sender, User[] recipientList, String text, ImageIcon image, LocalDateTime timeReceived, LocalDateTime timeDelivered) {
         this.sender = sender;
         this.recipientList = recipientList;
         this.text = text;
@@ -21,19 +22,19 @@ public class Message {
         this.timeDelivered = timeDelivered;
     }
 
-    public Date getTimeReceived() {
+    public LocalDateTime getTimeReceived() {
         return timeReceived;
     }
 
-    public void setTimeReceived(Date timeReceived) {
+    public void setTimeReceived(LocalDateTime timeReceived) {
         this.timeReceived = timeReceived;
     }
 
-    public Date getTimeDelivered() {
+    public LocalDateTime getTimeDelivered() {
         return timeDelivered;
     }
 
-    public void setTimeDelivered(Date timeDelivered) {
+    public void setTimeDelivered(LocalDateTime timeDelivered) {
         this.timeDelivered = timeDelivered;
     }
 

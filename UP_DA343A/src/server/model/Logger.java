@@ -1,5 +1,6 @@
 package server.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Logger {
@@ -8,7 +9,7 @@ public class Logger {
 
     }
 
-    public String[] getLogEntries(Date startTime, Date endTime) {
+    public String[] getLogEntries(LocalDateTime startTime, LocalDateTime endTime) {
 
     }
 }
