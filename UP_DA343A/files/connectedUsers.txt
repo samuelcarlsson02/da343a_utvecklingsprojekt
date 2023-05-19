@@ -1,0 +1,1 @@
+samuel,\pictures\ball.bmp
