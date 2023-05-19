@@ -1,5 +1,6 @@
 package client.controller;
 
+import client.model.ContactList;
 import client.model.Message;
 import client.view.ClientChat;
 import client.view.LoginPanel;
@@ -15,6 +16,7 @@ public class ControllerClient {
 
     public ControllerClient(){
         loginPanel = new LoginPanel(this);
+
     }
 
     public boolean connectToServer(String username, ImageIcon image){
