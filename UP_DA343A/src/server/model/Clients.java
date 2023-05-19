@@ -3,14 +3,14 @@ package server.model;
 import java.util.HashMap;
 
 public class Clients {
-    private HashMap<User, Client> clients;
+    private HashMap<User, Client> clients = new HashMap<>();
 
-    public void put(User user, Client client) {
-
+    public synchronized void put(User user, Client client) {
+        clients.put(user, client);
     }
 
-    public Client get(User user) {
-
+    public synchronized Client get(User user) {
+        return get(user);
     }
 
     public void updateConnectedList() {
