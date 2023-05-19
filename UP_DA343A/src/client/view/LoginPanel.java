@@ -4,10 +4,15 @@
  */
 package client.view;
 
-public class LoginPanel extends javax.swing.JFrame {
+import client.controller.ControllerClient;
 
-    public LoginPanel() {
+public class LoginPanel extends javax.swing.JFrame {
+    private ControllerClient controllerClient;
+
+    public LoginPanel(ControllerClient controllerClient) {
+        this.controllerClient = controllerClient;
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -111,7 +116,11 @@ public class LoginPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        boolean login = controllerClient.connectToServer(null, null);
+
+        if(login){
+            controllerClient.loggedIn();
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

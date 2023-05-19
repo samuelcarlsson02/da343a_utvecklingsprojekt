@@ -11,6 +11,6 @@ public class UnsentMessages {
     }
 
     public synchronized ArrayList<Message> getMessage(User user) {
-
+        return null;
     }
 }

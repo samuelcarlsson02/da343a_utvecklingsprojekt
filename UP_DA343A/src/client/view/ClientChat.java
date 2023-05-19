@@ -1,13 +1,18 @@
 package client.view;
 
+import client.controller.ControllerClient;
+
 import javax.swing.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ClientChat extends javax.swing.JFrame {
+    private ControllerClient controllerClient;
 
-    public ClientChat() {
+    public ClientChat(ControllerClient controllerClient) {
+        this.controllerClient = controllerClient;
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {
@@ -79,6 +84,11 @@ public class ClientChat extends javax.swing.JFrame {
         logoutBtn.setBackground(new java.awt.Color(255, 51, 51));
         logoutBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         logoutBtn.setText("Log out");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
 
         receiversList.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -190,6 +200,10 @@ public class ClientChat extends javax.swing.JFrame {
 
     private void choosePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt){
+        controllerClient.loggedOut();
     }
 
     public void showNewMessage(String text, ImageIcon image, String username, ImageIcon userPicture, LocalDateTime timeReceived){

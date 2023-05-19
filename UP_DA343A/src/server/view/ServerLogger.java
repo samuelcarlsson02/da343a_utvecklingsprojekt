@@ -1,9 +1,14 @@
 package server.view;
 
-public class ServerLogger extends javax.swing.JFrame {
+import server.controller.ControllerServer;
 
-    public ServerLogger() {
+public class ServerLogger extends javax.swing.JFrame {
+    private ControllerServer controllerServer;
+
+    public ServerLogger(ControllerServer controllerServer) {
+        this.controllerServer = controllerServer;
         initComponents();
+        setVisible(true);
     }
 
     private void initComponents() {

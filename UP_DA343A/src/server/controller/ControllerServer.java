@@ -10,6 +10,10 @@ public class ControllerServer {
     private User[] connectedUsers;
     private ServerLogger serverLogger;
 
+    public ControllerServer(){
+        serverLogger = new ServerLogger(this);
+    }
+
     public void connectUser(User user, Socket clientSocket) {
 
     }

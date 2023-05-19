@@ -10,6 +10,6 @@ public class Logger {
     }
 
     public String[] getLogEntries(LocalDateTime startTime, LocalDateTime endTime) {
-
+        return null;
     }
 }

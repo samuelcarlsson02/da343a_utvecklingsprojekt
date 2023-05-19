@@ -12,6 +12,6 @@ public class ClientServerConnection {
     }
 
     public boolean connectUser(User user){
-
+        return true;
     }
 }
