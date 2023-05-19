@@ -1,5 +1,9 @@
 package client.view;
 
+import javax.swing.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
 public class ClientChat extends javax.swing.JFrame {
 
     public ClientChat() {
@@ -186,6 +190,18 @@ public class ClientChat extends javax.swing.JFrame {
 
     private void choosePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
+    }
+
+    public void showNewMessage(String text, ImageIcon image, String username, ImageIcon userPicture, LocalDateTime timeReceived){
+
+    }
+
+    public void displayConnectedUsers(ArrayList<String> users){
+
+    }
+
+    public void displayContactList(ArrayList<String> contactList){
+
     }
 
     // Variables declaration - do not modify
