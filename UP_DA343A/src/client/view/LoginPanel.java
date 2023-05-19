@@ -6,6 +6,8 @@ package client.view;
 
 import client.controller.ControllerClient;
 
+import javax.swing.*;
+
 public class LoginPanel extends javax.swing.JFrame {
     private ControllerClient controllerClient;
 
@@ -21,14 +23,14 @@ public class LoginPanel extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        ipTxtPane = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        portTxtPane = new javax.swing.JTextPane();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextPane3 = new javax.swing.JTextPane();
+        usernameTxtPane = new javax.swing.JTextPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        profilePicture = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,11 +40,11 @@ public class LoginPanel extends javax.swing.JFrame {
 
         jLabel3.setText("Username:");
 
-        jScrollPane1.setViewportView(jTextPane1);
+        jScrollPane1.setViewportView(ipTxtPane);
 
-        jScrollPane2.setViewportView(jTextPane2);
+        jScrollPane2.setViewportView(portTxtPane);
 
-        jScrollPane3.setViewportView(jTextPane3);
+        jScrollPane3.setViewportView(usernameTxtPane);
 
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -58,7 +60,7 @@ public class LoginPanel extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Profile picture");
+        profilePicture.setText("Profile picture");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,7 +87,7 @@ public class LoginPanel extends javax.swing.JFrame {
                                     .addComponent(jScrollPane2)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(82, 82, 82)
-                        .addComponent(jLabel4)))
+                        .addComponent(profilePicture)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -108,7 +110,7 @@ public class LoginPanel extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2))
                 .addGap(55, 55, 55)
-                .addComponent(jLabel4)
+                .addComponent(profilePicture)
                 .addContainerGap(67, Short.MAX_VALUE))
         );
 
@@ -116,29 +118,39 @@ public class LoginPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        boolean login = controllerClient.connectToServer(null, null);
+
+        String username = usernameTxtPane.getText();
+        ImageIcon image = (ImageIcon) profilePicture.getIcon();
+
+        boolean login = controllerClient.connectToServer(username, image);
 
         if(login){
             controllerClient.loggedIn();
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    }
+
+    public String getIp() {
+        return ipTxtPane.getText();
+    }
+
+    public int getPort() {
+        return Integer.valueOf(portTxtPane.getText());
+    }
+
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel profilePicture;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
-    private javax.swing.JTextPane jTextPane3;
-    // End of variables declaration//GEN-END:variables
+    private javax.swing.JTextPane ipTxtPane;
+    private javax.swing.JTextPane portTxtPane;
+    private javax.swing.JTextPane usernameTxtPane;
 }

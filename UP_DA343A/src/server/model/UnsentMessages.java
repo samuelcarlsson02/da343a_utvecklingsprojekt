@@ -1,5 +1,8 @@
 package server.model;
 
+import model.Message;
+import model.User;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
