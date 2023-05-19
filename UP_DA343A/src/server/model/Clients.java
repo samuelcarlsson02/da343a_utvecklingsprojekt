@@ -1,5 +1,7 @@
 package server.model;
 
+import model.User;
+
 import java.util.HashMap;
 
 public class Clients {

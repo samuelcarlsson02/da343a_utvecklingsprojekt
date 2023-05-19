@@ -1,9 +1,7 @@
-package server.model;
+package model;
 
 import javax.swing.*;
-import java.awt.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Message {
     private User sender;
@@ -20,6 +18,10 @@ public class Message {
         this.image = image;
         this.timeReceived = timeReceived;
         this.timeDelivered = timeDelivered;
+    }
+
+    public Message(User sender) {
+        this.sender = sender;
     }
 
     public LocalDateTime getTimeReceived() {

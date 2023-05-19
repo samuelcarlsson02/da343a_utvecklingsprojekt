@@ -1,4 +1,4 @@
-package client.model;
+package model;
 
 import javax.swing.*;
 import java.io.Serializable;

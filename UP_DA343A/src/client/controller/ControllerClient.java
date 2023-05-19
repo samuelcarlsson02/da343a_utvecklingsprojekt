@@ -1,7 +1,9 @@
 package client.controller;
 
+import client.model.ClientServerConnection;
 import client.model.ContactList;
-import client.model.Message;
+import model.Message;
+import model.User;
 import client.view.ClientChat;
 import client.view.LoginPanel;
 
@@ -11,16 +13,32 @@ import java.util.ArrayList;
 public class ControllerClient {
     private String username;
     private ImageIcon image;
+    private User loggedInUser;
     private LoginPanel loginPanel;
     private ClientChat clientChat;
+    private ContactList contactList;
 
     public ControllerClient(){
-        loginPanel = new LoginPanel(this);
+        contactList = new ContactList();
+        contactList.readFromFile("contactList");
 
+        loginPanel = new LoginPanel(this);
     }
 
     public boolean connectToServer(String username, ImageIcon image){
-        return true;
+        String ip = loginPanel.getIp();
+        int port = loginPanel.getPort();
+
+        loggedInUser = new User(username, image);
+        ClientServerConnection clientServerConnection = new ClientServerConnection(ip, port);
+
+        boolean connected = clientServerConnection.connectUser(loggedInUser);
+        if (connected) {
+            System.out.println("Connection established in ControllerClient");
+            return connected;
+        }
+
+        return connected;
     }
 
     public void loggedIn(){
@@ -31,6 +49,10 @@ public class ControllerClient {
     public void loggedOut(){
         clientChat.setVisible(false);
         loginPanel.setVisible(true);
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUser;
     }
 
     public void sendMessage(Message message){
