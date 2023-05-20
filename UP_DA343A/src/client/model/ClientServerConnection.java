@@ -2,8 +2,9 @@ package client.model;
 
 import client.controller.ControllerClient;
 import model.Message;
+import model.OnlineUserList;
 import model.User;
-import server.model.Buffer;
+import model.Buffer;
 import server.model.ServerHandler;
 
 import java.io.IOException;
@@ -33,34 +34,45 @@ public class ClientServerConnection {
     }
 
     public boolean connectUser(User user) {
-        boolean connected = serverHandler.connectUser(user);
+        clientInput.setUser(user);
+        clientInput.start();
 
-        if (connected) {
+        if (socket.isConnected()) {
             System.out.println("Connection established in ClientServerConnection");
-            return connected;
+            return true;
         }
 
-        return connected;
+        return false;
+    }
+
+    public void addMessage(Message message) {
+        clientInput.addMessage(message);
     }
 
 
     //sending data to server
     private class ClientInput extends Thread {
         private Socket socket;
+        private User user;
         private ObjectOutputStream oos;
         private Buffer<Message> messageBuffer = new Buffer<>();
 
         public ClientInput(Socket socket) {
             this.socket = socket;
-            start();
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public void addMessage(Message message) {
+            messageBuffer.put(message);
         }
 
         public void run() {
             try {
                 oos = new ObjectOutputStream(socket.getOutputStream());
-                User user = controller.getLoggedInUser();
-                Message message = new Message(user);
-                oos.writeObject(message);
+                oos.writeObject(user);
                 oos.flush();
                 System.out.println("User info sent");
             } catch (IOException e) {
@@ -104,6 +116,8 @@ public class ClientServerConnection {
 
                     if (object instanceof Message message) {
                         controller.receiveMessage(message);
+                    } else if (object instanceof OnlineUserList onlineUserList) {
+                        controller.updateOnlineUsers(onlineUserList);
                     }
 
                 } catch (IOException e) {

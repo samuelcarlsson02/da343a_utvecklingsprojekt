@@ -24,4 +24,8 @@ public class ContactList {
     public void saveToFile(String filename){
 
     }
+
+    public ArrayList<String> getContacts() {
+        return contactList;
+    }
 }

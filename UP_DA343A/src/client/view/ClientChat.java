@@ -210,7 +210,7 @@ public class ClientChat extends javax.swing.JFrame {
 
     }
 
-    public void displayConnectedUsers(ArrayList<String> users){
+    public void displayConnectedUsers(ArrayList<String> usernames, ArrayList<ImageIcon> profilePictures){
 
     }
 

@@ -122,7 +122,8 @@ public class LoginPanel extends javax.swing.JFrame {
         String username = usernameTxtPane.getText();
         ImageIcon image = (ImageIcon) profilePicture.getIcon();
 
-        boolean login = controllerClient.connectToServer(username, image);
+        boolean login = true; //controllerClient.connectToServer(username, image, getIp(), getPort());
+
 
         if(login){
             controllerClient.loggedIn();

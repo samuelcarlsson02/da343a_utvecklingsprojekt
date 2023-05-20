@@ -24,6 +24,18 @@ public class Message {
         this.sender = sender;
     }
 
+    public String getText() {
+        return text;
+    }
+
+    public ImageIcon getImage() {
+        return image;
+    }
+
+    public User getUser() {
+        return sender;
+    }
+
     public LocalDateTime getTimeReceived() {
         return timeReceived;
     }

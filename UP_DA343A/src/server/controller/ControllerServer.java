@@ -1,12 +1,9 @@
 package server.controller;
 
-import server.model.FileManager;
+import model.OnlineUserList;
+import server.model.*;
 import model.Message;
 import model.User;
-import server.model.Client;
-import server.model.Clients;
-import server.model.Logger;
-import server.model.UnsentMessages;
 import server.view.ServerLogger;
 
 import javax.swing.*;
@@ -22,22 +19,23 @@ public class ControllerServer {
     private UnsentMessages unsentMessages;
     private ArrayList<Message> messages;
     private FileManager fileManager;
+    private ServerHandler serverHandler;
 
     public ControllerServer(){
         serverLogger = new ServerLogger(this);
+        serverHandler = new ServerHandler(3343, this);
         fileManager = new FileManager();
         logger = new Logger();
         clients = new Clients();
-
+        unsentMessages = new UnsentMessages();
     }
 
     public boolean connectUser(User user, Socket clientSocket) {
         logger.addLogEntry("User connected at ControllerServer at: " + LocalDateTime.now());
 
-        Client client = new Client(clientSocket);
+        Client client = new Client(clientSocket, this);
         clients.put(user, client);
 
-        unsentMessages = new UnsentMessages();
         messages = new ArrayList<>();
         messages = unsentMessages.getMessage(user);
 
@@ -65,7 +63,19 @@ public class ControllerServer {
         return connectedUsers;
     }
 
-    public void handleMessage(Message message) {
+    public synchronized void handleMessage(Message message) {
+        //loops through recipientlist for this message and checks if the user is online or not
+        //if online, sends message to the clients in the recipientlist
+        //if offline puts it in the unsentmessages hashmap
+        for (int i = 0; i < message.getRecipientList().length; i++) {
+            User user = message.getRecipientList()[i];
+            Client client = clients.get(user);
 
+            if (client != null) {
+                client.sendMessage(message);
+            } else {
+                unsentMessages.putMessage(user, message);
+            }
+        }
     }
 }

@@ -17,8 +17,8 @@ public class User implements Serializable {
     }
 
     public boolean equals(Object object) {
-        if (object != null && object instanceof server.model.User) {
-            return username.equals(((server.model.User)object).getUsername());
+        if (object != null && object instanceof User) {
+            return username.equals(((User)object).getUsername());
         }
 
         return false;
