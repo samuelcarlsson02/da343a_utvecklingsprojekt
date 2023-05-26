@@ -37,6 +37,7 @@ public class ControllerClient {
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
             System.out.println("Connection established in ControllerClient");
+            onlineUserList.add(loggedInUser);
             return connected;
         }
 
@@ -78,6 +79,7 @@ public class ControllerClient {
         ArrayList<String> users = new ArrayList<>();
         ArrayList<ImageIcon> profilePictures = new ArrayList<>();
         ArrayList<User> onlineUsers = userList.getOnlineUsers();
+        System.out.println("hej");
 
         for (int i = 0; i < onlineUsers.size(); i++) {
             users.add(onlineUsers.get(i).getUsername());

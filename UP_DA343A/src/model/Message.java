@@ -1,9 +1,10 @@
 package model;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message {
+public class Message implements Serializable {
     private User sender;
     private User[] recipientList;
     private String text;

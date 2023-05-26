@@ -5,6 +5,8 @@ import model.Message;
 import model.User;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ public class ClientChat extends javax.swing.JFrame {
     private ControllerClient controllerClient;
     private DefaultListModel<Message> chatModel;
     private DefaultListModel<User> userModel;
+    private ImageIcon selectedImage;
 
     public ClientChat(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
@@ -193,11 +196,25 @@ public class ClientChat extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void sendMessageBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        if(selectedImage != null){
+            //controllerClient.sendMessage(messagePane.getText(), selectedImage, );
+        }
     }
 
     private void choosePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        JFrame frame = new JFrame("Image Chooser");
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(frame);
+
+        if(result == JFileChooser.APPROVE_OPTION){
+            File selectedFile = fileChooser.getSelectedFile();
+            Image image = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
+            Image resizedImage = image.getScaledInstance(choosePictureBtn.getWidth(), choosePictureBtn.getHeight(), Image.SCALE_REPLICATE);
+            selectedImage = new ImageIcon(resizedImage);
+
+            choosePictureBtn.setText(null);
+            choosePictureBtn.setIcon(selectedImage);
+        }
     }
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt){

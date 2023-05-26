@@ -7,14 +7,22 @@ package client.view;
 import client.controller.ControllerClient;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 public class LoginPanel extends javax.swing.JFrame {
     private ControllerClient controllerClient;
+    private ImageIcon selectedProfilePicture;
 
     public LoginPanel(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
         initComponents();
         setVisible(true);
+        usernameTxtPane.setText("samuel");
+        ipTxtPane.setText("192.168.0.107");
+        portTxtPane.setText("3343");
     }
 
     private void initComponents() {
@@ -109,9 +117,9 @@ public class LoginPanel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addGap(55, 55, 55)
+                .addGap(25, 25, 25)
                 .addComponent(profilePicture)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,7 +141,27 @@ public class LoginPanel extends javax.swing.JFrame {
     }
 
     private void selectProfilePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        JFrame frame = new JFrame("Image Chooser");
+        JFileChooser fileChooser = new JFileChooser();
+        File directory = null;
+        try{
+            directory = new File(new File(".").getCanonicalPath() + "\\UP_DA343A\\pictures");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        fileChooser.setCurrentDirectory(directory);
 
+        int result = fileChooser.showOpenDialog(frame);
+
+        if(result == JFileChooser.APPROVE_OPTION){
+            File selectedFile = fileChooser.getSelectedFile();
+            Image image = new ImageIcon(selectedFile.getAbsolutePath()).getImage();
+            Image resizedImage = image.getScaledInstance(100, 100, Image.SCALE_REPLICATE);
+            selectedProfilePicture = new ImageIcon(resizedImage);
+
+            profilePicture.setText(null);
+            profilePicture.setIcon(selectedProfilePicture);
+        }
     }
 
     public String getIp() {

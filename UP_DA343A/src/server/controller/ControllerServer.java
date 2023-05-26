@@ -39,6 +39,7 @@ public class ControllerServer {
 
         Client client = new Client(clientSocket, this);
         clients.put(user, client);
+        client.sendMessage();
 
         //messages = new ArrayList<>();
         //messages = unsentMessages.getMessage(user);
