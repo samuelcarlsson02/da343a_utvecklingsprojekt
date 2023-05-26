@@ -40,21 +40,15 @@ public class ControllerServer {
         Client client = new Client(clientSocket, this);
         clients.put(user, client);
 
-        messages = new ArrayList<>();
-        messages = unsentMessages.getMessage(user);
+        //messages = new ArrayList<>();
+        //messages = unsentMessages.getMessage(user);
 
-        client.sendMessages(messages);
+        //client.sendMessages(messages);
 
         return true;
     }
 
     public void disconnectUser(String username) {
-
-        for (int i = 0; i < connectedUsers.size(); i++) {
-            if (username == getConnectedUsers().get(i).getUsername()) {
-                System.out.println(username);
-            }
-        }
     }
 
     public ArrayList<User> getConnectedUsers() {

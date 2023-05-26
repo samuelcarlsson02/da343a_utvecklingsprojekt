@@ -45,11 +45,15 @@ public class ServerHandler {
                 {
                     try
                     {
+                        System.out.println("Waiting for client to connect");
                         Socket socket = serverSocket.accept();
+                        System.out.println("Client connecting");
                         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                         User user = (User) ois.readObject();
+                        System.out.println("User " + user.getUsername() + " is created");
 
                         controllerServer.connectUser(user, socket);
+                        System.out.println("After connectuser method");
                     }
                     catch(IOException ex)
                     {

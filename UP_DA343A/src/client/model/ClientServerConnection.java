@@ -7,10 +7,12 @@ import model.User;
 import model.Buffer;
 import server.model.ServerHandler;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ClientServerConnection {
     private ControllerClient controller;
@@ -25,7 +27,6 @@ public class ClientServerConnection {
         this.ip = ip;
         this.port = port;
         try {
-            System.out.println("kom hit serverconnection innan");
             socket = new Socket(ip, port);
 
             clientInput = new ClientInput(socket);
@@ -46,13 +47,9 @@ public class ClientServerConnection {
         return false;
     }
 
-    public void disconnectUser() {
-        try {
-            socket.close();
-            socket = null;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void disconnect(){
+        clientInput.interrupt();
+        serverOutput.interrupt();
     }
 
     public void addMessage(Message message) {
@@ -86,18 +83,16 @@ public class ClientServerConnection {
                 oos.flush();
                 System.out.println("User info sent");
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
 
-            while (true) {
+            while (!isInterrupted()) {
                 try {
                     Message message = messageBuffer.get();
                     oos.writeObject(message);
                     oos.flush();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -120,7 +115,7 @@ public class ClientServerConnection {
                 throw new RuntimeException(e);
             }
 
-            while (true) {
+            while (!isInterrupted()) {
                 try {
                     Object object = ois.readObject();
 
@@ -130,10 +125,10 @@ public class ClientServerConnection {
                         controller.updateOnlineUsers(onlineUserList);
                     }
 
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                } catch (EOFException | SocketException e) {
+                    e.printStackTrace();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         }
