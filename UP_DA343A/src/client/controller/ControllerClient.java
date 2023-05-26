@@ -31,8 +31,11 @@ public class ControllerClient {
     }
 
     public boolean connectToServer(String username, ImageIcon image, String ip, int port){
+        System.out.println("kom hit");
         loggedInUser = new User(username, image);
+        System.out.println("kom hit1");
         clientServerConnection = new ClientServerConnection(ip, port);
+        System.out.println("kim hitt");
 
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
@@ -51,6 +54,7 @@ public class ControllerClient {
     public void loggedOut(){
         clientChat.setVisible(false);
         loginPanel.setVisible(true);
+        clientServerConnection.disconnectUser();
     }
 
     public User getLoggedInUser() {
@@ -64,18 +68,16 @@ public class ControllerClient {
         clientServerConnection.addMessage(message);
     }
 
-    public void disconnect(){
+    public void disconnect() {
 
     }
 
-    public void receiveMessage(Message message){
+    public void receiveMessage(Message message) {
         clientChat.showNewMessage(message.getText(), message.getImage(), message.getUser().getUsername(),
                                     message.getUser().getImage(), message.getTimeReceived());
-
-
     }
 
-    public void updateOnlineUsers(OnlineUserList userList){
+    public void updateOnlineUsers(OnlineUserList userList) {
         ArrayList<String> users = new ArrayList<>();
         ArrayList<ImageIcon> profilePictures = new ArrayList<>();
         ArrayList<User> onlineUsers = userList.getOnlineUsers();

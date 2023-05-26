@@ -50,8 +50,7 @@ public class Client {
         private Socket socket;
         private ObjectOutputStream oos;
 
-        public ClientOutputHandler(Socket socket) throws IOException
-        {
+        public ClientOutputHandler(Socket socket) throws IOException {
             this.socket = socket;
         }
 

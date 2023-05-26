@@ -49,14 +49,14 @@ public class LoginPanel extends javax.swing.JFrame {
         jButton1.setText("Login");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                loginBtnActionPerformed(evt);
             }
         });
 
         jButton2.setText("Select profile picture");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                selectProfilePictureBtnActionPerformed(evt);
             }
         });
 
@@ -115,22 +115,24 @@ public class LoginPanel extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {
 
         String username = usernameTxtPane.getText();
         ImageIcon image = (ImageIcon) profilePicture.getIcon();
 
-        boolean login = true; //controllerClient.connectToServer(username, image, getIp(), getPort());
+        System.out.println(getIp());
+        System.out.println(getPort());
 
+        boolean login = controllerClient.connectToServer(username, image, getIp(), getPort());
 
         if(login){
             controllerClient.loggedIn();
         }
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void selectProfilePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
 
     }
 
