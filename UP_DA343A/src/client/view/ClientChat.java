@@ -1,6 +1,8 @@
 package client.view;
 
 import client.controller.ControllerClient;
+import model.Message;
+import model.User;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 
 public class ClientChat extends javax.swing.JFrame {
     private ControllerClient controllerClient;
+    private DefaultListModel<Message> chatModel;
+    private DefaultListModel<User> userModel;
 
     public ClientChat(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
@@ -16,7 +20,6 @@ public class ClientChat extends javax.swing.JFrame {
     }
 
     private void initComponents() {
-
         jScrollPane2 = new javax.swing.JScrollPane();
         messagePane = new javax.swing.JTextPane();
         choosePictureBtn = new javax.swing.JButton();
@@ -36,6 +39,11 @@ public class ClientChat extends javax.swing.JFrame {
         chatTxt = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
         chatMessagesList = new javax.swing.JList<>();
+
+        userModel = new DefaultListModel<>();
+        usersOnlineList.setCellRenderer(new UserRenderer());
+        chatModel = new DefaultListModel<>();
+        chatMessagesList.setCellRenderer(new ChatMessageRenderer());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,11 +66,6 @@ public class ClientChat extends javax.swing.JFrame {
             }
         });
 
-        usersOnlineList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(usersOnlineList);
 
         contactsList.setModel(new javax.swing.AbstractListModel<String>() {
@@ -106,11 +109,6 @@ public class ClientChat extends javax.swing.JFrame {
         chatTxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         chatTxt.setText("Chat");
 
-        chatMessagesList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane6.setViewportView(chatMessagesList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -207,11 +205,15 @@ public class ClientChat extends javax.swing.JFrame {
     }
 
     public void showNewMessage(String text, ImageIcon image, String username, ImageIcon userPicture, LocalDateTime timeReceived){
-
+        chatModel.addElement(new Message(username, userPicture, text, image, timeReceived));
+        chatMessagesList.setModel(chatModel);
     }
 
     public void displayConnectedUsers(ArrayList<String> usernames, ArrayList<ImageIcon> profilePictures){
-
+        for (int i = 0; i < usernames.size(); i++) {
+            userModel.addElement(new User(usernames.get(i), profilePictures.get(i)));
+        }
+        usersOnlineList.setModel(userModel);
     }
 
     public void displayContactList(ArrayList<String> contactList){
@@ -221,7 +223,7 @@ public class ClientChat extends javax.swing.JFrame {
     // Variables declaration - do not modify
     private javax.swing.JButton addContactBtn;
     private javax.swing.JButton addToReceiverBtn;
-    private javax.swing.JList<String> chatMessagesList;
+    private javax.swing.JList<Message> chatMessagesList;
     private javax.swing.JLabel chatTxt;
     private javax.swing.JButton choosePictureBtn;
     private javax.swing.JLabel contactTxt;
@@ -236,7 +238,7 @@ public class ClientChat extends javax.swing.JFrame {
     private javax.swing.JList<String> receiversList;
     private javax.swing.JLabel receiversTxt;
     private javax.swing.JButton sendMessageBtn;
-    private javax.swing.JList<String> usersOnlineList;
+    private javax.swing.JList<User> usersOnlineList;
     private javax.swing.JLabel usersOnlineTxt;
     // End of variables declaration
 }
