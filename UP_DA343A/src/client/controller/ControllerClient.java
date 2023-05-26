@@ -51,6 +51,7 @@ public class ControllerClient {
     public void loggedOut(){
         clientChat.setVisible(false);
         loginPanel.setVisible(true);
+        clientServerConnection.disconnectUser();
     }
 
     public User getLoggedInUser() {

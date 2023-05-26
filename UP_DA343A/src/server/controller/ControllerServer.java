@@ -44,8 +44,16 @@ public class ControllerServer {
         return true;
     }
 
-    public void disconnectUser(String username) {
+    public void disconnectUser(User user) {
+        Client client = clients.get(user);
+        if(client != null){
+            client.disconnect();
+            clients.remove(user);
+        }
+    }
 
+    public Clients getClients(){
+        return clients;
     }
 
     public ArrayList<User> getConnectedUsers() {

@@ -25,15 +25,18 @@ public class ClientServerConnection {
         this.ip = ip;
         this.port = port;
         try {
+            System.out.println("kom hit serverconnection innan");
             socket = new Socket(ip, port);
-            clientInput = new ClientInput(socket);
-            serverOutput = new ServerOutput(socket);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public boolean connectUser(User user) {
+        clientInput = new ClientInput(socket);
+        serverOutput = new ServerOutput(socket);
+
         clientInput.setUser(user);
         clientInput.start();
 
@@ -41,8 +44,26 @@ public class ClientServerConnection {
             System.out.println("Connection established in ClientServerConnection");
             return true;
         }
-
         return false;
+    }
+
+    public void disconnectUser() {
+        try {
+            if (clientInput != null) {
+                clientInput.stopThread();
+            }
+
+            if (serverOutput != null) {
+                serverOutput.stopThread();
+            }
+
+            if (socket != null) {
+                socket.close();
+                socket = null;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void addMessage(Message message) {
@@ -56,6 +77,7 @@ public class ClientServerConnection {
         private User user;
         private ObjectOutputStream oos;
         private Buffer<Message> messageBuffer = new Buffer<>();
+        private boolean running;
 
         public ClientInput(Socket socket) {
             this.socket = socket;
@@ -69,17 +91,33 @@ public class ClientServerConnection {
             messageBuffer.put(message);
         }
 
+        public void stopThread(){
+            running = false;
+            try{
+                if(socket != null){
+                    if(oos != null){
+                        oos.close();
+                    }
+                    socket.close();
+                    socket = null;
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
         public void run() {
             try {
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 oos.writeObject(user);
                 oos.flush();
                 System.out.println("User info sent");
+                running = true;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
-            while (true) {
+            while (running) {
                 try {
                     Message message = messageBuffer.get();
                     oos.writeObject(message);
@@ -97,27 +135,50 @@ public class ClientServerConnection {
     private class ServerOutput extends Thread {
         private Socket socket;
         private ObjectInputStream ois;
+        private boolean running;
 
         public ServerOutput(Socket socket) {
             this.socket = socket;
             start();
         }
+        public void stopThread(){
+            running = false;
+            try{
+                if(socket != null){
+                    if(ois != null){
+                        ois.close();
+                    }
+                    socket.close();
+                    socket = null;
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+
 
         public void run() {
             try {
                 ois = new ObjectInputStream(socket.getInputStream());
+                running = true;
             } catch (IOException e) {
+                if (socket.isClosed() && socket != null) {
+                    running = false;
+                    return;
+                }
                 throw new RuntimeException(e);
             }
 
-            while (true) {
+            while (running) {
                 try {
-                    Object object = ois.readObject();
+                    if(!socket.isClosed() && socket.getInputStream().available() > 0){
+                        Object object = ois.readObject();
 
-                    if (object instanceof Message message) {
-                        controller.receiveMessage(message);
-                    } else if (object instanceof OnlineUserList onlineUserList) {
-                        controller.updateOnlineUsers(onlineUserList);
+                        if (object instanceof Message message) {
+                            controller.receiveMessage(message);
+                        } else if (object instanceof OnlineUserList onlineUserList) {
+                            controller.updateOnlineUsers(onlineUserList);
+                        }
                     }
 
                 } catch (IOException e) {
