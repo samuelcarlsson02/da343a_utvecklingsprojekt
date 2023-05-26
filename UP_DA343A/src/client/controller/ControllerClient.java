@@ -31,11 +31,8 @@ public class ControllerClient {
     }
 
     public boolean connectToServer(String username, ImageIcon image, String ip, int port){
-        System.out.println("kom hit");
         loggedInUser = new User(username, image);
-        System.out.println("kom hit1");
         clientServerConnection = new ClientServerConnection(ip, port);
-        System.out.println("kim hitt");
 
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
@@ -54,7 +51,7 @@ public class ControllerClient {
     public void loggedOut(){
         clientChat.setVisible(false);
         loginPanel.setVisible(true);
-        clientServerConnection.disconnectUser();
+        clientServerConnection.disconnect();
     }
 
     public User getLoggedInUser() {
