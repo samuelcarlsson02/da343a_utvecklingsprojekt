@@ -25,7 +25,9 @@ public class ClientServerConnection {
         this.ip = ip;
         this.port = port;
         try {
+            System.out.println("kom hit serverconnection innan");
             socket = new Socket(ip, port);
+
             clientInput = new ClientInput(socket);
             serverOutput = new ServerOutput(socket);
         } catch (IOException e) {
@@ -41,8 +43,16 @@ public class ClientServerConnection {
             System.out.println("Connection established in ClientServerConnection");
             return true;
         }
-
         return false;
+    }
+
+    public void disconnectUser() {
+        try {
+            socket.close();
+            socket = null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void addMessage(Message message) {

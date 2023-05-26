@@ -7,7 +7,9 @@ import model.User;
 import server.view.ServerLogger;
 
 import javax.swing.*;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -21,13 +23,15 @@ public class ControllerServer {
     private FileManager fileManager;
     private ServerHandler serverHandler;
 
-    public ControllerServer(){
+    public ControllerServer() throws UnknownHostException
+    {
         serverLogger = new ServerLogger(this);
         serverHandler = new ServerHandler(3343, this);
         fileManager = new FileManager();
         logger = new Logger();
         clients = new Clients();
         unsentMessages = new UnsentMessages();
+        System.out.println(InetAddress.getLocalHost());
     }
 
     public boolean connectUser(User user, Socket clientSocket) {
@@ -46,6 +50,11 @@ public class ControllerServer {
 
     public void disconnectUser(String username) {
 
+        for (int i = 0; i < connectedUsers.size(); i++) {
+            if (username == getConnectedUsers().get(i).getUsername()) {
+                System.out.println(username);
+            }
+        }
     }
 
     public ArrayList<User> getConnectedUsers() {
