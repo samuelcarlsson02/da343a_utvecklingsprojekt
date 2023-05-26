@@ -24,13 +24,4 @@ public class Clients {
     public void remove(User user) {
         clients.remove(user);
     }
-
-    public synchronized User getUserBySocket(Socket socket) {
-        for (Map.Entry<User, Client> entry : clients.entrySet()) {
-            if (entry.getValue().getSocket().equals(socket)) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 }
