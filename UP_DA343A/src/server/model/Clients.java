@@ -2,7 +2,9 @@ package server.model;
 
 import model.User;
 
+import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Clients {
     private HashMap<User, Client> clients = new HashMap<>();
@@ -12,7 +14,7 @@ public class Clients {
     }
 
     public synchronized Client get(User user) {
-        return get(user);
+        return clients.get(user);
     }
 
     public void updateConnectedList() {
@@ -20,6 +22,15 @@ public class Clients {
     }
 
     public void remove(User user) {
+        clients.remove(user);
+    }
 
+    public synchronized User getUserBySocket(Socket socket) {
+        for (Map.Entry<User, Client> entry : clients.entrySet()) {
+            if (entry.getValue().getSocket().equals(socket)) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }

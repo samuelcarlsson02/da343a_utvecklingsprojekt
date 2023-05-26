@@ -10,6 +10,8 @@ public class Message {
     private ImageIcon image;
     private LocalDateTime timeReceived;
     private LocalDateTime timeDelivered;
+    private String username;
+    private ImageIcon userPicture;
 
     public Message(User sender, User[] recipientList, String text, ImageIcon image, LocalDateTime timeReceived, LocalDateTime timeDelivered) {
         this.sender = sender;
@@ -18,6 +20,14 @@ public class Message {
         this.image = image;
         this.timeReceived = timeReceived;
         this.timeDelivered = timeDelivered;
+    }
+
+    public Message(String username, ImageIcon userPicture, String text, ImageIcon image, LocalDateTime timeReceived){
+        this.username = username;
+        this.userPicture = userPicture;
+        this.text = text;
+        this.image = image;
+        this.timeReceived = timeReceived;
     }
 
     public Message(User sender) {
