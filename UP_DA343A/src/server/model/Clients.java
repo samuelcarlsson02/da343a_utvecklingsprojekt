@@ -24,4 +24,8 @@ public class Clients {
     public void remove(User user) {
         clients.remove(user);
     }
+
+    public HashMap<User, Client> getClients() {
+        return clients;
+    }
 }

@@ -28,11 +28,12 @@ public class ControllerClient {
         onlineUserList = new OnlineUserList();
 
         loginPanel = new LoginPanel(this);
+        clientChat = new ClientChat(this);
     }
 
     public boolean connectToServer(String username, ImageIcon image, String ip, int port){
         loggedInUser = new User(username, image);
-        clientServerConnection = new ClientServerConnection(ip, port);
+        clientServerConnection = new ClientServerConnection(this, ip, port);
 
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
@@ -46,7 +47,7 @@ public class ControllerClient {
 
     public void loggedIn(){
         loginPanel.setVisible(false);
-        clientChat = new ClientChat(this);
+        clientChat.setVisible(true);
     }
 
     public void loggedOut(){
@@ -79,7 +80,6 @@ public class ControllerClient {
         ArrayList<String> users = new ArrayList<>();
         ArrayList<ImageIcon> profilePictures = new ArrayList<>();
         ArrayList<User> onlineUsers = userList.getOnlineUsers();
-        System.out.println("hej");
 
         for (int i = 0; i < onlineUsers.size(); i++) {
             users.add(onlineUsers.get(i).getUsername());

@@ -1,10 +1,9 @@
 package model;
 
 import javax.swing.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message implements Serializable {
+public class ChatMessage extends Message{
     private User sender;
     private User[] recipientList;
     private String text;
@@ -14,16 +13,7 @@ public class Message implements Serializable {
     private String username;
     private ImageIcon userPicture;
 
-    public Message(User sender, User[] recipientList, String text, ImageIcon image, LocalDateTime timeReceived, LocalDateTime timeDelivered) {
-        this.sender = sender;
-        this.recipientList = recipientList;
-        this.text = text;
-        this.image = image;
-        this.timeReceived = timeReceived;
-        this.timeDelivered = timeDelivered;
-    }
-
-    public Message(String username, ImageIcon userPicture, String text, ImageIcon image, LocalDateTime timeReceived){
+    public ChatMessage(String username, ImageIcon userPicture, String text, ImageIcon image, LocalDateTime timeReceived){
         this.username = username;
         this.userPicture = userPicture;
         this.text = text;
@@ -31,12 +21,13 @@ public class Message implements Serializable {
         this.timeReceived = timeReceived;
     }
 
-    public Message(){
-
-    }
-
-    public Message(User sender) {
+    public ChatMessage(User sender, User[] recipientList, String text, ImageIcon image, LocalDateTime timeReceived, LocalDateTime timeDelivered) {
         this.sender = sender;
+        this.recipientList = recipientList;
+        this.text = text;
+        this.image = image;
+        this.timeReceived = timeReceived;
+        this.timeDelivered = timeDelivered;
     }
 
     public String getText() {
