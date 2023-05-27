@@ -39,13 +39,14 @@ public class ControllerServer {
     public boolean connectUser(User user, Socket clientSocket) {
         logger.addLogEntry("User connected at ControllerServer at: " + LocalDateTime.now());
 
-        Client client = new Client(clientSocket, this);
-        clients.put(user, client);
+        Client connectedClient = new Client(clientSocket, this);
+        clients.put(user, connectedClient);
         onlineUserList.add(user);
 
         for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
             System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
-            clients.get(onlineUserList.getOnlineUsers().get(i)).updateConnectedList(onlineUserList);
+            Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
+            client.updateConnectedList(onlineUserList);
         }
 
         //messages = new ArrayList<>();
