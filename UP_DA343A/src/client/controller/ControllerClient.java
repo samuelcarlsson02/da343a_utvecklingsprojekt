@@ -25,7 +25,6 @@ public class ControllerClient {
     public ControllerClient(){
         contactList = new ContactList();
         contactList.readFromFile("contactList");
-        onlineUserList = new OnlineUserList();
 
         loginPanel = new LoginPanel(this);
         clientChat = new ClientChat(this);
@@ -38,7 +37,6 @@ public class ControllerClient {
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
             System.out.println("Connection established in ControllerClient");
-            onlineUserList.add(loggedInUser);
             return connected;
         }
 
@@ -77,15 +75,10 @@ public class ControllerClient {
     }
 
     public void updateOnlineUsers(OnlineUserList userList) {
-        ArrayList<String> users = new ArrayList<>();
-        ArrayList<ImageIcon> profilePictures = new ArrayList<>();
-        ArrayList<User> onlineUsers = userList.getOnlineUsers();
-
-        for (int i = 0; i < onlineUsers.size(); i++) {
-            users.add(onlineUsers.get(i).getUsername());
-            profilePictures.add(onlineUsers.get(i).getImage());
+        for (int i = 0; i < userList.getOnlineUsers().size(); i++) {
+            System.out.println(userList.getOnlineUsers().get(i).getUsername());
         }
-        clientChat.displayConnectedUsers(users, profilePictures);
+        //clientChat.displayConnectedUsers(userList.getOnlineUsers());
     }
 
     public ArrayList<String> getContactList(){

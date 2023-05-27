@@ -225,9 +225,9 @@ public class ClientChat extends javax.swing.JFrame {
         chatMessagesList.setModel(chatModel);
     }
 
-    public void displayConnectedUsers(ArrayList<String> usernames, ArrayList<ImageIcon> profilePictures){
-        for (int i = 0; i < usernames.size(); i++) {
-            System.out.println(usernames.get(i));
+    public void displayConnectedUsers(ArrayList<User> usersOnline){
+        for (int i = 0; i < usersOnline.size(); i++) {
+            System.out.println(usersOnline.get(i).getUsername());
             //userModel.addElement(new User(usernames.get(i), profilePictures.get(i)));
         }
        // usersOnlineList.setModel(userModel);
