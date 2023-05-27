@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public class OnlineUserList {
+public class OnlineUserList extends Message{
     private ArrayList<User> onlineUsers;
 
     public OnlineUserList() {

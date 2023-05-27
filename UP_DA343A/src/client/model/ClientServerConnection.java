@@ -1,10 +1,7 @@
 package client.model;
 
 import client.controller.ControllerClient;
-import model.Message;
-import model.OnlineUserList;
-import model.User;
-import model.Buffer;
+import model.*;
 import server.model.ServerHandler;
 
 import java.io.EOFException;
@@ -23,7 +20,8 @@ public class ClientServerConnection {
     private ClientInput clientInput;
     private ServerOutput serverOutput;
 
-    public ClientServerConnection(String ip, int port) {
+    public ClientServerConnection(ControllerClient controller, String ip, int port) {
+        this.controller = controller;
         this.ip = ip;
         this.port = port;
         try {
@@ -117,11 +115,11 @@ public class ClientServerConnection {
 
             while (!isInterrupted()) {
                 try {
-                    Object object = ois.readObject();
+                    Message message = (Message) ois.readObject();
 
-                    if (object instanceof Message message) {
-                        controller.receiveMessage(message);
-                    } else if (object instanceof OnlineUserList onlineUserList) {
+                    if (message instanceof ChatMessage chatMessage) {
+                        controller.receiveMessage(chatMessage);
+                    } else if (message instanceof OnlineUserList onlineUserList) {
                         controller.updateOnlineUsers(onlineUserList);
                     }
 

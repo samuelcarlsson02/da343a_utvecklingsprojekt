@@ -19,7 +19,6 @@ public class ClientChat extends javax.swing.JFrame {
     public ClientChat(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
         initComponents();
-        setVisible(true);
     }
 
     private void initComponents() {
@@ -228,9 +227,10 @@ public class ClientChat extends javax.swing.JFrame {
 
     public void displayConnectedUsers(ArrayList<String> usernames, ArrayList<ImageIcon> profilePictures){
         for (int i = 0; i < usernames.size(); i++) {
-            userModel.addElement(new User(usernames.get(i), profilePictures.get(i)));
+            System.out.println(usernames.get(i));
+            //userModel.addElement(new User(usernames.get(i), profilePictures.get(i)));
         }
-        usersOnlineList.setModel(userModel);
+       // usersOnlineList.setModel(userModel);
     }
 
     public void displayContactList(ArrayList<String> contactList){

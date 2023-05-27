@@ -2,6 +2,7 @@ package server.model;
 
 import model.Buffer;
 import model.Message;
+import model.OnlineUserList;
 import model.User;
 import server.controller.ControllerServer;
 
@@ -40,8 +41,8 @@ public class Client {
         }
     }
 
-    public void updateConnectedList(User[] userList) {
-
+    public void updateConnectedList(OnlineUserList onlineUserList) {
+        messageBuffer.put(onlineUserList);
     }
 
     public void sendMessages(ArrayList<Message> messages) {
@@ -64,8 +65,8 @@ public class Client {
 
         public void run() {
             try {
+                oos = new ObjectOutputStream(socket.getOutputStream());
                 while (!isInterrupted()) {
-                    oos = new ObjectOutputStream(socket.getOutputStream());
                     Message message = messageBuffer.get();
                     oos.writeObject(message);
                     oos.flush();
@@ -97,8 +98,8 @@ public class Client {
 
         public void run() {
             try {
+                ois = new ObjectInputStream(socket.getInputStream());
                 while (!isInterrupted()) {
-                    ois = new ObjectInputStream(socket.getInputStream());
                     Message message = (Message) ois.readObject();
                     message.setTimeReceived(LocalDateTime.now());
                     logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());

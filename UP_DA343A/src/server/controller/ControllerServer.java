@@ -22,6 +22,7 @@ public class ControllerServer {
     private ArrayList<Message> messages;
     private FileManager fileManager;
     private ServerHandler serverHandler;
+    private OnlineUserList onlineUserList;
 
     public ControllerServer() throws UnknownHostException
     {
@@ -31,6 +32,7 @@ public class ControllerServer {
         logger = new Logger();
         clients = new Clients();
         unsentMessages = new UnsentMessages();
+        onlineUserList = new OnlineUserList();
         System.out.println(InetAddress.getLocalHost());
     }
 
@@ -39,6 +41,12 @@ public class ControllerServer {
 
         Client client = new Client(clientSocket, this);
         clients.put(user, client);
+        onlineUserList.add(user);
+
+        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
+            System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
+            clients.get(onlineUserList.getOnlineUsers().get(i)).updateConnectedList(onlineUserList);
+        }
 
         //messages = new ArrayList<>();
         //messages = unsentMessages.getMessage(user);
