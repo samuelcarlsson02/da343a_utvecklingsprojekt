@@ -11,6 +11,7 @@ public class OnlineUserList {
 
     public void add(User user) {
         onlineUsers.add(user);
+        System.out.println("User: " + user.getUsername() + " has connected");
     }
 
     public void remove(User user) {
