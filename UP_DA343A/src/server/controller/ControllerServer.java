@@ -7,6 +7,7 @@ import model.User;
 import server.view.ServerLogger;
 
 import javax.swing.*;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -36,10 +37,10 @@ public class ControllerServer {
         System.out.println(InetAddress.getLocalHost());
     }
 
-    public boolean connectUser(User user, Socket clientSocket) {
+    public boolean connectUser(User user, ObjectInputStream ois, Socket clientSocket) {
         logger.addLogEntry("User connected at ControllerServer at: " + LocalDateTime.now());
 
-        Client connectedClient = new Client(clientSocket, this);
+        Client connectedClient = new Client(clientSocket, ois, this);
         clients.put(user, connectedClient);
         onlineUserList.add(user);
 
@@ -84,8 +85,10 @@ public class ControllerServer {
             Client client = clients.get(user);
 
             if (client != null) {
+                System.out.println("Recipient found");
                 client.sendMessage(message);
             } else {
+                System.out.println("Recipient not found");
                 unsentMessages.putMessage(user, message);
             }
         }

@@ -50,7 +50,7 @@ public class ClientServerConnection {
         serverOutput.interrupt();
     }
 
-    public void addMessage(Message message) {
+    public void addMessage(ChatMessage message) {
         clientInput.addMessage(message);
     }
 
@@ -60,7 +60,7 @@ public class ClientServerConnection {
         private Socket socket;
         private User user;
         private ObjectOutputStream oos;
-        private Buffer<Message> messageBuffer = new Buffer<>();
+        private Buffer<ChatMessage> messageBuffer = new Buffer<>();
 
         public ClientInput(Socket socket) {
             this.socket = socket;
@@ -70,7 +70,7 @@ public class ClientServerConnection {
             this.user = user;
         }
 
-        public void addMessage(Message message) {
+        public void addMessage(ChatMessage message) {
             messageBuffer.put(message);
         }
 
@@ -86,7 +86,7 @@ public class ClientServerConnection {
 
             while (!isInterrupted()) {
                 try {
-                    Message message = messageBuffer.get();
+                    ChatMessage message = messageBuffer.get();
                     oos.writeObject(message);
                     oos.flush();
                 } catch (IOException | InterruptedException e) {
@@ -115,11 +115,17 @@ public class ClientServerConnection {
 
             while (!isInterrupted()) {
                 try {
-                    Message message = (Message) ois.readObject();
+                    Object obj = ois.readObject();
 
-                    if (message instanceof ChatMessage chatMessage) {
+                    if (obj instanceof ChatMessage chatMessage) {
+                        System.out.println("Message received");
+                        if (chatMessage.getUser() != null)
+                        {
+                            System.out.println(chatMessage.getUser());
+                        }
                         controller.receiveMessage(chatMessage);
-                    } else if (message instanceof OnlineUserList onlineUserList) {
+                    } else if (obj instanceof OnlineUserList onlineUserList) {
+                        System.out.println(onlineUserList.getOnlineUsers().size());
                         controller.updateOnlineUsers(onlineUserList);
                     }
 

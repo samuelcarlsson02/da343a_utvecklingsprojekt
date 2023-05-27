@@ -2,6 +2,7 @@ package client.controller;
 
 import client.model.ClientServerConnection;
 import client.model.ContactList;
+import model.ChatMessage;
 import model.Message;
 import model.OnlineUserList;
 import model.User;
@@ -59,7 +60,7 @@ public class ControllerClient {
     }
 
     public void sendMessage(String messageText, ImageIcon image, User[] recipientList){
-        Message message = new Message(getLoggedInUser(), recipientList, messageText, image,
+        ChatMessage message = new ChatMessage(getLoggedInUser(), recipientList, messageText, image,
                                         LocalDateTime.now(), LocalDateTime.now());
 
         clientServerConnection.addMessage(message);
@@ -69,16 +70,15 @@ public class ControllerClient {
 
     }
 
-    public void receiveMessage(Message message) {
-        clientChat.showNewMessage(message.getText(), message.getImage(), message.getUser().getUsername(),
-                                    message.getUser().getImage(), message.getTimeReceived());
+    public void receiveMessage(ChatMessage message) {
+        clientChat.showNewMessage(message);
     }
 
     public void updateOnlineUsers(OnlineUserList userList) {
         for (int i = 0; i < userList.getOnlineUsers().size(); i++) {
             System.out.println(userList.getOnlineUsers().get(i).getUsername());
         }
-        //clientChat.displayConnectedUsers(userList.getOnlineUsers());
+        clientChat.displayConnectedUsers(userList.getOnlineUsers());
     }
 
     public ArrayList<String> getContactList(){

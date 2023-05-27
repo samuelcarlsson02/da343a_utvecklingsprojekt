@@ -52,7 +52,7 @@ public class ServerHandler {
                         User user = (User) ois.readObject();
                         System.out.println("User " + user.getUsername() + " is created");
 
-                        controllerServer.connectUser(user, socket);
+                        controllerServer.connectUser(user, ois, socket);
                         System.out.println("After connectuser method");
                     }
                     catch(IOException ex)

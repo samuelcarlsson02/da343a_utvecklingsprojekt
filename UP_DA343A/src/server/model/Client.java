@@ -1,9 +1,6 @@
 package server.model;
 
-import model.Buffer;
-import model.Message;
-import model.OnlineUserList;
-import model.User;
+import model.*;
 import server.controller.ControllerServer;
 
 import java.io.IOException;
@@ -23,7 +20,7 @@ public class Client {
     private ClientOutputHandler outputHandler;
     private ClientInputHandler inputHandler;
 
-    public Client(Socket socket, ControllerServer controllerServer) {
+    public Client(Socket socket, ObjectInputStream ois, ControllerServer controllerServer) {
         this.socket = socket;
         this.controllerServer = controllerServer;
 
@@ -31,11 +28,11 @@ public class Client {
         messageBuffer = new Buffer<>();
         try {
             outputHandler = new ClientOutputHandler(socket);
-            inputHandler = new ClientInputHandler(socket);
+            inputHandler = new ClientInputHandler(ois);
 
             outputHandler.start();
             inputHandler.start();
-            new ClientInputHandler(socket).start();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -68,9 +65,19 @@ public class Client {
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 while (!isInterrupted()) {
                     Message message = messageBuffer.get();
-                    oos.writeObject(message);
-                    oos.flush();
-                    logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());
+
+                    if (message instanceof OnlineUserList onlineUserList)
+                    {
+                        oos.writeObject(onlineUserList);
+                        oos.flush();
+                        oos.reset();
+                        System.out.println("Size when sending to client = " + onlineUserList.getOnlineUsers().size());
+                    } else if (message instanceof ChatMessage chatMessage) {
+                        oos.writeObject(chatMessage);
+                        oos.flush();
+                        oos.reset();
+                        logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());
+                    }
                 }
             } catch (SocketException | SocketTimeoutException e) {
                try {
@@ -91,16 +98,15 @@ public class Client {
         private Socket socket;
         private ObjectInputStream ois;
 
-        public ClientInputHandler(Socket socket) throws IOException
+        public ClientInputHandler(ObjectInputStream ois) throws IOException
         {
-            this.socket = socket;
+            this.ois = ois;
         }
 
         public void run() {
             try {
-                ois = new ObjectInputStream(socket.getInputStream());
                 while (!isInterrupted()) {
-                    Message message = (Message) ois.readObject();
+                    ChatMessage message = (ChatMessage) ois.readObject();
                     message.setTimeReceived(LocalDateTime.now());
                     logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());
                     controllerServer.handleMessage(message);

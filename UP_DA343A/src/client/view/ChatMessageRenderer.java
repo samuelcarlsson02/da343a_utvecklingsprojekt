@@ -1,11 +1,12 @@
 package client.view;
 
+import model.ChatMessage;
 import model.Message;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ChatMessageRenderer extends JPanel implements ListCellRenderer<Message> {
+public class ChatMessageRenderer extends JLabel implements ListCellRenderer<ChatMessage> {
     private JLabel usernameLabel;
     private JLabel messageLabel;
     private JLabel timeLabel;
@@ -13,9 +14,9 @@ public class ChatMessageRenderer extends JPanel implements ListCellRenderer<Mess
     private JLabel messageImageLabel;
 
     public ChatMessageRenderer() {
-        setLayout(new BorderLayout());
-        setOpaque(true);
+       setOpaque(true);
 
+        setLayout(new BorderLayout());
         usernameLabel = new JLabel();
         messageLabel = new JLabel();
         timeLabel = new JLabel();
@@ -30,7 +31,18 @@ public class ChatMessageRenderer extends JPanel implements ListCellRenderer<Mess
     }
 
     @Override
-    public Component getListCellRendererComponent(JList<? extends Message> list, Message value, int index, boolean isSelected, boolean cellHasFocus) {
-        return null;
+    public Component getListCellRendererComponent(JList<? extends ChatMessage> list, ChatMessage message, int index, boolean isSelected, boolean cellHasFocus) {
+
+        ImageIcon imageIcon = message.getImage();
+        if (imageIcon == null)
+        {
+            imageIcon = new ImageIcon();
+        }
+        setIcon(imageIcon);
+
+        String chat = message.getUser().getUsername() + " (" + message.getTimeReceived().toString() + ") \n" + message.getText();
+        setText(chat);
+
+        return this;
     }
 }

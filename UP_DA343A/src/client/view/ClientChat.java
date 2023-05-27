@@ -1,6 +1,7 @@
 package client.view;
 
 import client.controller.ControllerClient;
+import model.ChatMessage;
 import model.Message;
 import model.User;
 
@@ -9,12 +10,16 @@ import java.awt.*;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ClientChat extends javax.swing.JFrame {
     private ControllerClient controllerClient;
-    private DefaultListModel<Message> chatModel;
+    private DefaultListModel<ChatMessage> chatModel;
     private DefaultListModel<User> userModel;
+    private DefaultListModel<User> receiverModel;
+    private DefaultListModel<User> contactListModel;
     private ImageIcon selectedImage;
+
 
     public ClientChat(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
@@ -44,8 +49,17 @@ public class ClientChat extends javax.swing.JFrame {
 
         userModel = new DefaultListModel<>();
         usersOnlineList.setCellRenderer(new UserRenderer());
+
+        receiverModel = new DefaultListModel<>();
+        receiversList.setCellRenderer(new UserRenderer());
+
+        contactListModel = new DefaultListModel<>();
+        contactsList.setCellRenderer(new UserRenderer());
+
         chatModel = new DefaultListModel<>();
         chatMessagesList.setCellRenderer(new ChatMessageRenderer());
+        chatMessagesList.setModel(chatModel);
+        jScrollPane6.setViewportView(chatMessagesList);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,11 +84,7 @@ public class ClientChat extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(usersOnlineList);
 
-        contactsList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        contactsList.setModel(contactListModel);
         jScrollPane4.setViewportView(contactsList);
 
         usersOnlineTxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -82,6 +92,11 @@ public class ClientChat extends javax.swing.JFrame {
 
         addContactBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         addContactBtn.setText("Add contact");
+        addContactBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactBtnActionPerformed(evt);
+            }
+        });
 
         contactTxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         contactTxt.setText("Contacts");
@@ -95,11 +110,7 @@ public class ClientChat extends javax.swing.JFrame {
             }
         });
 
-        receiversList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        receiversList.setModel(receiverModel);
         jScrollPane5.setViewportView(receiversList);
 
         receiversTxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -107,11 +118,14 @@ public class ClientChat extends javax.swing.JFrame {
 
         addToReceiverBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         addToReceiverBtn.setText("Add to receiver list");
+        addToReceiverBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receiverBtnActionPerformed(evt);
+            }
+        });
 
         chatTxt.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         chatTxt.setText("Chat");
-
-        jScrollPane6.setViewportView(chatMessagesList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,8 +209,16 @@ public class ClientChat extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void sendMessageBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        User[] receivers = new User[receiversList.getModel().getSize()];
+
+        for (int i = 0; i < receiversList.getModel().getSize(); i++)
+        {
+            User receiver = receiversList.getModel().getElementAt(i);
+            receivers[i] = receiver;
+        }
+
         if(selectedImage != null){
-            //controllerClient.sendMessage(messagePane.getText(), selectedImage, );
+            controllerClient.sendMessage(messagePane.getText(), selectedImage, receivers);
         }
     }
 
@@ -220,31 +242,49 @@ public class ClientChat extends javax.swing.JFrame {
         controllerClient.loggedOut();
     }
 
-    public void showNewMessage(String text, ImageIcon image, String username, ImageIcon userPicture, LocalDateTime timeReceived){
-        chatModel.addElement(new Message(username, userPicture, text, image, timeReceived));
+    public void showNewMessage(ChatMessage chatMessage){
+        System.out.println(chatMessage.getUser().getUsername() + " " + chatMessage.getTimeReceived().toString() + " " + chatMessage.getText());
+        chatModel.addElement(chatMessage);
+
         chatMessagesList.setModel(chatModel);
     }
 
     public void displayConnectedUsers(ArrayList<User> usersOnline){
+        userModel.clear();
         for (int i = 0; i < usersOnline.size(); i++) {
-            System.out.println(usersOnline.get(i).getUsername());
-            //userModel.addElement(new User(usernames.get(i), profilePictures.get(i)));
+            if (!usersOnline.get(i).getUsername().equals(controllerClient.getLoggedInUser().getUsername()))
+            {
+                userModel.addElement(new User(usersOnline.get(i).getUsername(), usersOnline.get(i).getImage()));
+            }
         }
-       // usersOnlineList.setModel(userModel);
+        usersOnlineList.setModel(userModel);
+    }
+
+    private void receiverBtnActionPerformed(java.awt.event.ActionEvent evt){
+        receiverModel.clear();
+        User user = (User) contactsList.getSelectedValue();
+        receiverModel.addElement(user);
+        receiversList.setModel(receiverModel);
+    }
+
+    private void contactBtnActionPerformed(java.awt.event.ActionEvent evt){
+        contactListModel.clear();
+        User user = (User) usersOnlineList.getSelectedValue();
+        contactListModel.addElement(user);
+        contactsList.setModel(contactListModel);
     }
 
     public void displayContactList(ArrayList<String> contactList){
 
     }
 
-    // Variables declaration - do not modify
     private javax.swing.JButton addContactBtn;
     private javax.swing.JButton addToReceiverBtn;
-    private javax.swing.JList<Message> chatMessagesList;
+    private javax.swing.JList<ChatMessage> chatMessagesList;
     private javax.swing.JLabel chatTxt;
     private javax.swing.JButton choosePictureBtn;
     private javax.swing.JLabel contactTxt;
-    private javax.swing.JList<String> contactsList;
+    private javax.swing.JList<User> contactsList;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -252,7 +292,7 @@ public class ClientChat extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JTextPane messagePane;
-    private javax.swing.JList<String> receiversList;
+    private javax.swing.JList<User> receiversList;
     private javax.swing.JLabel receiversTxt;
     private javax.swing.JButton sendMessageBtn;
     private javax.swing.JList<User> usersOnlineList;
