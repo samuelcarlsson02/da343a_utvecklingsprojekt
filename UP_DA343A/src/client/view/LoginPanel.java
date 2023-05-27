@@ -20,9 +20,6 @@ public class LoginPanel extends javax.swing.JFrame {
         this.controllerClient = controllerClient;
         initComponents();
         setVisible(true);
-        usernameTxtPane.setText("samuel");
-        ipTxtPane.setText("192.168.0.107");
-        portTxtPane.setText("3343");
     }
 
     private void initComponents() {
