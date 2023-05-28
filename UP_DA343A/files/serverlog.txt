@@ -142,3 +142,41 @@
 2023-05-28 19:44:55: Message received: 'hej samuel', from: tim, to: samuel
 2023-05-28 19:45:07: Message sent: 'hej Tim!', from: samuel, to: tim
 2023-05-28 19:45:07: Message received: 'hej Tim!', from: samuel, to: tim
+2023-05-28 20:20:54: User samuel is online.
+2023-05-28 20:20:54: Contacts updated.
+2023-05-28 20:20:54: Online users updated.
+2023-05-28 20:22:09: User alex is online.
+2023-05-28 20:22:09: Online users updated.
+2023-05-28 20:22:09: Contacts updated.
+2023-05-28 20:22:09: Online users updated.
+2023-05-28 20:22:39: Message sent: 'hej', from: alex, to: samuel
+2023-05-28 20:22:39: Message received: 'hej', from: alex, to: samuel
+2023-05-28 20:23:11: Message sent: '', from: alex, to: 
+2023-05-28 20:23:36: Message sent: '', from: alex, to: samuel
+2023-05-28 20:23:36: Message received: '', from: alex, to: samuel
+2023-05-28 20:24:13: User samuel3 is online.
+2023-05-28 20:24:13: Online users updated.
+2023-05-28 20:24:13: Online users updated.
+2023-05-28 20:24:13: Contacts updated.
+2023-05-28 20:24:13: Online users updated.
+2023-05-28 20:24:24: Adding contact
+2023-05-28 20:24:31: Adding contact
+2023-05-28 20:26:37: User samuel is online.
+2023-05-28 20:26:37: Contacts updated.
+2023-05-28 20:26:37: Online users updated.
+2023-05-28 20:27:15: User alex is online.
+2023-05-28 20:27:15: Online users updated.
+2023-05-28 20:27:15: Contacts updated.
+2023-05-28 20:27:15: Online users updated.
+2023-05-28 20:27:22: User tim is online.
+2023-05-28 20:27:22: Contacts updated.
+2023-05-28 20:27:22: Online users updated.
+2023-05-28 20:27:22: Online users updated.
+2023-05-28 20:27:22: Online users updated.
+2023-05-28 20:27:41: Message sent: 'hej', from: samuel, to: alex, tim
+2023-05-28 20:27:41: Message received: 'hej', from: samuel, to: alex, tim
+2023-05-28 20:27:41: Message received: 'hej', from: samuel, to: alex, tim
+2023-05-28 20:28:08: Message sent: '', from: samuel, to: alex, tim, alex
+2023-05-28 20:28:08: Message received: '', from: samuel, to: alex, tim, alex
+2023-05-28 20:28:08: Message received: '', from: samuel, to: alex, tim, alex
+2023-05-28 20:28:08: Message received: '', from: samuel, to: alex, tim, alex
