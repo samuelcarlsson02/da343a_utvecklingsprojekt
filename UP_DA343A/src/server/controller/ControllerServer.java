@@ -1,5 +1,6 @@
 package server.controller;
 
+import model.ContactList;
 import model.OnlineUserList;
 import server.model.*;
 import model.Message;
@@ -12,6 +13,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ControllerServer {
@@ -24,25 +26,36 @@ public class ControllerServer {
     private FileManager fileManager;
     private ServerHandler serverHandler;
     private OnlineUserList onlineUserList;
+    private ContactList contactList;
 
     public ControllerServer() throws UnknownHostException
     {
         serverLogger = new ServerLogger(this);
         serverHandler = new ServerHandler(3343, this);
         fileManager = new FileManager();
-        logger = new Logger();
+        logger = new Logger(this);
         clients = new Clients();
         unsentMessages = new UnsentMessages();
         onlineUserList = new OnlineUserList();
+        contactList = new ContactList();
+
         System.out.println(InetAddress.getLocalHost());
     }
 
+    public String getCurrentDateAndTime(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
+    }
+
     public boolean connectUser(User user, ObjectInputStream ois, Socket clientSocket) {
-        logger.addLogEntry("User connected at ControllerServer at: " + LocalDateTime.now());
+        logger.addLogEntry("User " + user.getUsername() + " is online.");
 
         Client connectedClient = new Client(clientSocket, ois, this);
         clients.put(user, connectedClient);
         onlineUserList.add(user);
+        contactList = getContactList(user.getUsername());
+        connectedClient.updateContactList(contactList);
 
         for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
             System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
@@ -62,7 +75,7 @@ public class ControllerServer {
     }
 
     public ArrayList<User> getConnectedUsers() {
-        String path = System.getProperty("user.dir");
+      /*  String path = System.getProperty("user.dir");
         String fileName = path + "\\files\\connectedUsers.txt";
         ArrayList<String> usersString = fileManager.readFromFile(fileName);
 
@@ -73,7 +86,8 @@ public class ControllerServer {
             connectedUsers.add(new User(username, new ImageIcon(path + picture)));
         }
 
-        return connectedUsers;
+        return connectedUsers;*/
+        return null;
     }
 
     public synchronized void handleMessage(Message message) {
@@ -91,6 +105,26 @@ public class ControllerServer {
                 System.out.println("Recipient not found");
                 unsentMessages.putMessage(user, message);
             }
+        }
+    }
+
+    public String[] getServerLog(String startTime, String endTime){
+        return logger.getLogEntries(startTime, endTime);
+    }
+
+    public ContactList getContactList(String username){
+        ArrayList<String> contacts = fileManager.readFromFile(username, "contactList.txt");
+        contactList.setContactList(contacts);
+
+        return contactList;
+    }
+
+    public void writeToContactList(ContactList contactList){
+        ArrayList<String> contacts = contactList.getContacts();
+        String username = contacts.get(0);
+        for(int i = 1; i < contacts.size(); i++){
+            String contact = contactList.getContacts().get(i);
+            fileManager.writeToFile("contactList.txt", username + ": " + contact);
         }
     }
 }

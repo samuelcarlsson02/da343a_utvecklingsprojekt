@@ -54,13 +54,17 @@ public class ClientServerConnection {
         clientInput.addMessage(message);
     }
 
+    public void addContactList(ContactList contactList){
+        clientInput.addContactList(contactList);
+    }
+
 
     //sending data to server
     private class ClientInput extends Thread {
         private Socket socket;
         private User user;
         private ObjectOutputStream oos;
-        private Buffer<ChatMessage> messageBuffer = new Buffer<>();
+        private Buffer<Message> messageBuffer = new Buffer<>();
 
         public ClientInput(Socket socket) {
             this.socket = socket;
@@ -72,6 +76,10 @@ public class ClientServerConnection {
 
         public void addMessage(ChatMessage message) {
             messageBuffer.put(message);
+        }
+
+        public void addContactList(ContactList contactList){
+            messageBuffer.put(contactList);
         }
 
         public void run() {
@@ -86,7 +94,7 @@ public class ClientServerConnection {
 
             while (!isInterrupted()) {
                 try {
-                    ChatMessage message = messageBuffer.get();
+                    Message message = messageBuffer.get();
                     oos.writeObject(message);
                     oos.flush();
                 } catch (IOException | InterruptedException e) {
@@ -127,6 +135,8 @@ public class ClientServerConnection {
                     } else if (obj instanceof OnlineUserList onlineUserList) {
                         System.out.println(onlineUserList.getOnlineUsers().size());
                         controller.updateOnlineUsers(onlineUserList);
+                    } else if (obj instanceof ContactList contactList){
+                        controller.updateContactList(contactList);
                     }
 
                 } catch (EOFException | SocketException e) {

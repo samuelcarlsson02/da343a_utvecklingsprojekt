@@ -24,7 +24,7 @@ public class Client {
         this.socket = socket;
         this.controllerServer = controllerServer;
 
-        logger = new Logger();
+        logger = new Logger(controllerServer);
         messageBuffer = new Buffer<>();
         try {
             outputHandler = new ClientOutputHandler(socket);
@@ -40,6 +40,10 @@ public class Client {
 
     public void updateConnectedList(OnlineUserList onlineUserList) {
         messageBuffer.put(onlineUserList);
+    }
+
+    public void updateContactList(ContactList contactList){
+        messageBuffer.put(contactList);
     }
 
     public void sendMessages(ArrayList<Message> messages) {
@@ -71,12 +75,18 @@ public class Client {
                         oos.writeObject(onlineUserList);
                         oos.flush();
                         oos.reset();
+                        logger.addLogEntry("Online users updated.");
                         System.out.println("Size when sending to client = " + onlineUserList.getOnlineUsers().size());
                     } else if (message instanceof ChatMessage chatMessage) {
                         oos.writeObject(chatMessage);
                         oos.flush();
                         oos.reset();
-                        logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());
+                        logger.addLogEntry("Message received: " + message);
+                    } else if (message instanceof ContactList contactList){
+                        oos.writeObject(contactList);
+                        oos.flush();
+                        oos.reset();
+                        logger.addLogEntry("Contacts updated.");
                     }
                 }
             } catch (SocketException | SocketTimeoutException e) {
@@ -106,10 +116,16 @@ public class Client {
         public void run() {
             try {
                 while (!isInterrupted()) {
-                    ChatMessage message = (ChatMessage) ois.readObject();
-                    message.setTimeReceived(LocalDateTime.now());
-                    logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());
-                    controllerServer.handleMessage(message);
+                    Message message = (Message) ois.readObject();
+
+                    if(message instanceof ChatMessage chatMessage){
+                        chatMessage.setTimeReceived(controllerServer.getCurrentDateAndTime());
+                        logger.addLogEntry("Message sent: " + chatMessage);
+                        controllerServer.handleMessage(chatMessage);
+                    } else if(message instanceof ContactList contactList){
+                        logger.addLogEntry("Adding contact");
+                        controllerServer.writeToContactList(contactList);
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);

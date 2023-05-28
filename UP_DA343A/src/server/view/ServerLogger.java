@@ -2,6 +2,8 @@ package server.view;
 
 import server.controller.ControllerServer;
 
+import javax.swing.*;
+
 public class ServerLogger extends javax.swing.JFrame {
     private ControllerServer controllerServer;
 
@@ -26,10 +28,10 @@ public class ServerLogger extends javax.swing.JFrame {
         loggerTxt.setText("Logger");
 
         firstTimeComboBox.setMaximumRowCount(24);
-        firstTimeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00" }));
+        firstTimeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00" }));
 
         secondTimeComboBox.setMaximumRowCount(24);
-        secondTimeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00" }));
+        secondTimeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00" }));
 
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -40,11 +42,6 @@ public class ServerLogger extends javax.swing.JFrame {
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane2.setViewportView(jList1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -94,7 +91,13 @@ public class ServerLogger extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        String[] serverLog = controllerServer.getServerLog((String)firstTimeComboBox.getSelectedItem(), (String)secondTimeComboBox.getSelectedItem());
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (String item : serverLog) {
+            listModel.addElement(item);
+        }
+
+        jList1.setModel(listModel);
     }
 
     // Variables declaration - do not modify

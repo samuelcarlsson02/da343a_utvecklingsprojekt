@@ -16,8 +16,9 @@ public class ClientChat extends javax.swing.JFrame {
     private ControllerClient controllerClient;
     private DefaultListModel<ChatMessage> chatModel;
     private DefaultListModel<User> userModel;
-    private DefaultListModel<User> receiverModel;
-    private DefaultListModel<User> contactListModel;
+    private DefaultListModel<String> receiverModel;
+    private DefaultListModel<String> contactListModel;
+    private ChatMessageRenderer chatMessageRenderer;
     private ImageIcon selectedImage;
 
 
@@ -51,13 +52,12 @@ public class ClientChat extends javax.swing.JFrame {
         usersOnlineList.setCellRenderer(new UserRenderer());
 
         receiverModel = new DefaultListModel<>();
-        receiversList.setCellRenderer(new UserRenderer());
 
         contactListModel = new DefaultListModel<>();
-        contactsList.setCellRenderer(new UserRenderer());
 
         chatModel = new DefaultListModel<>();
-        chatMessagesList.setCellRenderer(new ChatMessageRenderer());
+        chatMessageRenderer = new ChatMessageRenderer();
+        chatMessagesList.setCellRenderer(chatMessageRenderer);
         chatMessagesList.setModel(chatModel);
         jScrollPane6.setViewportView(chatMessagesList);
 
@@ -213,13 +213,16 @@ public class ClientChat extends javax.swing.JFrame {
 
         for (int i = 0; i < receiversList.getModel().getSize(); i++)
         {
-            User receiver = receiversList.getModel().getElementAt(i);
+            User receiver = new User(receiversList.getModel().getElementAt(i), null);
             receivers[i] = receiver;
         }
 
-        if(selectedImage != null){
-            controllerClient.sendMessage(messagePane.getText(), selectedImage, receivers);
-        }
+        controllerClient.sendMessage(messagePane.getText(), selectedImage, receivers);
+
+        receiversList.setModel(new DefaultListModel<>());
+        messagePane.setText(null);
+        choosePictureBtn.setIcon(null);
+        choosePictureBtn.setText("Choose picture");
     }
 
     private void choosePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -243,9 +246,14 @@ public class ClientChat extends javax.swing.JFrame {
     }
 
     public void showNewMessage(ChatMessage chatMessage){
-        System.out.println(chatMessage.getUser().getUsername() + " " + chatMessage.getTimeReceived().toString() + " " + chatMessage.getText());
+        System.out.println(chatMessage.getUser().getUsername() + " " + chatMessage.getTimeReceived() + " " + chatMessage.getText());
         chatModel.addElement(chatMessage);
 
+        chatMessagesList.setModel(chatModel);
+    }
+
+    public void showSentMessage(ChatMessage chatMessage){
+        chatModel.addElement(chatMessage);
         chatMessagesList.setModel(chatModel);
     }
 
@@ -262,20 +270,23 @@ public class ClientChat extends javax.swing.JFrame {
 
     private void receiverBtnActionPerformed(java.awt.event.ActionEvent evt){
         receiverModel.clear();
-        User user = (User) contactsList.getSelectedValue();
-        receiverModel.addElement(user);
+        receiverModel.addElement(contactsList.getSelectedValue());
         receiversList.setModel(receiverModel);
     }
 
     private void contactBtnActionPerformed(java.awt.event.ActionEvent evt){
-        contactListModel.clear();
         User user = (User) usersOnlineList.getSelectedValue();
-        contactListModel.addElement(user);
+        controllerClient.addToContactList(user.getUsername());
+        contactListModel.addElement(user.getUsername());
         contactsList.setModel(contactListModel);
     }
 
-    public void displayContactList(ArrayList<String> contactList){
-
+    public void displayContactList(ArrayList<String> contactListArrayList){
+        contactListModel.clear();
+        for (int i = 0; i < contactListArrayList.size(); i++) {
+            contactListModel.addElement(contactListArrayList.get(i));
+        }
+        contactsList.setModel(contactListModel);
     }
 
     private javax.swing.JButton addContactBtn;
@@ -284,7 +295,7 @@ public class ClientChat extends javax.swing.JFrame {
     private javax.swing.JLabel chatTxt;
     private javax.swing.JButton choosePictureBtn;
     private javax.swing.JLabel contactTxt;
-    private javax.swing.JList<User> contactsList;
+    private javax.swing.JList<String> contactsList;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -292,7 +303,7 @@ public class ClientChat extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JTextPane messagePane;
-    private javax.swing.JList<User> receiversList;
+    private javax.swing.JList<String> receiversList;
     private javax.swing.JLabel receiversTxt;
     private javax.swing.JButton sendMessageBtn;
     private javax.swing.JList<User> usersOnlineList;

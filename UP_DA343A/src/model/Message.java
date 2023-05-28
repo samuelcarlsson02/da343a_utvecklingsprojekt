@@ -9,12 +9,12 @@ public class Message implements Serializable {
     private User[] recipientList;
     private String text;
     private ImageIcon image;
-    private LocalDateTime timeReceived;
-    private LocalDateTime timeDelivered;
+    private String timeReceived;
+    private String timeDelivered;
     private String username;
     private ImageIcon userPicture;
 
-    public Message(User sender, User[] recipientList, String text, ImageIcon image, LocalDateTime timeReceived, LocalDateTime timeDelivered) {
+    public Message(User sender, User[] recipientList, String text, ImageIcon image, String timeReceived, String timeDelivered) {
         this.sender = sender;
         this.recipientList = recipientList;
         this.text = text;
@@ -23,7 +23,7 @@ public class Message implements Serializable {
         this.timeDelivered = timeDelivered;
     }
 
-    public Message(String username, ImageIcon userPicture, String text, ImageIcon image, LocalDateTime timeReceived){
+    public Message(String username, ImageIcon userPicture, String text, ImageIcon image, String timeReceived){
         this.username = username;
         this.userPicture = userPicture;
         this.text = text;
@@ -51,19 +51,19 @@ public class Message implements Serializable {
         return sender;
     }
 
-    public LocalDateTime getTimeReceived() {
+    public String getTimeReceived() {
         return timeReceived;
     }
 
-    public void setTimeReceived(LocalDateTime timeReceived) {
+    public void setTimeReceived(String timeReceived) {
         this.timeReceived = timeReceived;
     }
 
-    public LocalDateTime getTimeDelivered() {
+    public String getTimeDelivered() {
         return timeDelivered;
     }
 
-    public void setTimeDelivered(LocalDateTime timeDelivered) {
+    public void setTimeDelivered(String timeDelivered) {
         this.timeDelivered = timeDelivered;
     }
 

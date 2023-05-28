@@ -1,7 +1,6 @@
 package client.view;
 
 import model.ChatMessage;
-import model.Message;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +39,7 @@ public class ChatMessageRenderer extends JLabel implements ListCellRenderer<Chat
         }
         setIcon(imageIcon);
 
-        String chat = message.getUser().getUsername() + " (" + message.getTimeReceived().toString() + ") \n" + message.getText();
+        String chat = "(" + message.getTimeReceived() + ") " + message.getUser().getUsername() + ": " + message.getText();
         setText(chat);
 
         return this;

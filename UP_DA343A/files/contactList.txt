@@ -1,0 +1,7 @@
+samuel: alex
+samuel: tim
+alex: tim
+tim: samuel
+alex: samuel
+samuel2: samuel
+hej: samuel

@@ -1,9 +1,8 @@
 package client.controller;
 
 import client.model.ClientServerConnection;
-import client.model.ContactList;
+import model.ContactList;
 import model.ChatMessage;
-import model.Message;
 import model.OnlineUserList;
 import model.User;
 import client.view.ClientChat;
@@ -11,6 +10,7 @@ import client.view.LoginPanel;
 
 import javax.swing.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ControllerClient {
@@ -25,8 +25,6 @@ public class ControllerClient {
 
     public ControllerClient(){
         contactList = new ContactList();
-        contactList.readFromFile("contactList");
-
         loginPanel = new LoginPanel(this);
         clientChat = new ClientChat(this);
     }
@@ -34,6 +32,7 @@ public class ControllerClient {
     public boolean connectToServer(String username, ImageIcon image, String ip, int port){
         loggedInUser = new User(username, image);
         clientServerConnection = new ClientServerConnection(this, ip, port);
+        contactList.addContact(loggedInUser.getUsername());
 
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
@@ -61,9 +60,16 @@ public class ControllerClient {
 
     public void sendMessage(String messageText, ImageIcon image, User[] recipientList){
         ChatMessage message = new ChatMessage(getLoggedInUser(), recipientList, messageText, image,
-                                        LocalDateTime.now(), LocalDateTime.now());
+                                        getCurrentDateAndTime(), getCurrentDateAndTime());
 
         clientServerConnection.addMessage(message);
+        clientChat.showSentMessage(message);
+    }
+
+    public String getCurrentDateAndTime(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
     }
 
     public void disconnect() {
@@ -81,13 +87,17 @@ public class ControllerClient {
         clientChat.displayConnectedUsers(userList.getOnlineUsers());
     }
 
-    public ArrayList<String> getContactList(){
-        return contactList.getContacts();
-
+    public void updateContactList(ContactList contactList){
+        clientChat.displayContactList(contactList.getContacts());
     }
 
-    public void addToContactList(String username){
-        contactList.addContact(username);
+    public ArrayList<String> getContactList(){
+        return contactList.getContacts();
+    }
+
+    public void addToContactList(String contact){
+        contactList.addContact(contact);
+        clientServerConnection.addContactList(contactList);
     }
 
     public ArrayList<String> getConnectedUsers(){
