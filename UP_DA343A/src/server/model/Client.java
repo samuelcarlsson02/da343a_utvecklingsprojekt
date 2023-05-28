@@ -16,13 +16,15 @@ public class Client {
     private Socket socket;
     private Buffer<Message> messageBuffer;
     private Logger logger;
+    private User user;
     private ControllerServer controllerServer;
     private ClientOutputHandler outputHandler;
     private ClientInputHandler inputHandler;
 
-    public Client(Socket socket, ObjectInputStream ois, ControllerServer controllerServer) {
+    public Client(Socket socket, ObjectInputStream ois, User user, ControllerServer controllerServer) {
         this.socket = socket;
         this.controllerServer = controllerServer;
+        this.user = user;
 
         logger = new Logger();
         messageBuffer = new Buffer<>();
@@ -36,6 +38,11 @@ public class Client {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void inputConnectionDropped() {
+        outputHandler.interrupt();
+        controllerServer.disconnectUser(user);
     }
 
     public void updateConnectedList(OnlineUserList onlineUserList) {
@@ -81,21 +88,23 @@ public class Client {
                 }
             } catch (SocketException | SocketTimeoutException e) {
                try {
-                   socket.close();
                    interrupt();
+                   socket.close();
                } catch (IOException ex) {
                    e.printStackTrace();
                    ex.printStackTrace();
                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted");
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
             outputHandler.interrupt();
         }
     }
 
-    private class ClientInputHandler extends Thread {
-        private Socket socket;
+    private class ClientInputHandler extends Thread
+    {
         private ObjectInputStream ois;
 
         public ClientInputHandler(ObjectInputStream ois) throws IOException
@@ -103,16 +112,34 @@ public class Client {
             this.ois = ois;
         }
 
-        public void run() {
-            try {
-                while (!isInterrupted()) {
+        public void run()
+        {
+            while (!isInterrupted()) {
+                try {
                     ChatMessage message = (ChatMessage) ois.readObject();
                     message.setTimeReceived(LocalDateTime.now());
                     logger.addLogEntry("Message: '" + message + "' sent at: " + LocalDateTime.now());
                     controllerServer.handleMessage(message);
+
+                } catch (SocketException e) {
+                    try {
+                        ois.close();
+                        interrupt();
+                        inputConnectionDropped();
+                    } catch (IOException ex) {
+                        e.printStackTrace();
+                        ex.printStackTrace();
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    try {
+                        ois.close();
+                        interrupt();
+                        inputConnectionDropped();
+                    } catch (IOException ex) {
+                        e.printStackTrace();
+                        ex.printStackTrace();
+                    }
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
             }
         }
     }

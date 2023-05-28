@@ -24,6 +24,7 @@ public class ControllerServer {
     private FileManager fileManager;
     private ServerHandler serverHandler;
     private OnlineUserList onlineUserList;
+    private Client connectedClient;
 
     public ControllerServer() throws UnknownHostException
     {
@@ -40,7 +41,7 @@ public class ControllerServer {
     public boolean connectUser(User user, ObjectInputStream ois, Socket clientSocket) {
         logger.addLogEntry("User connected at ControllerServer at: " + LocalDateTime.now());
 
-        Client connectedClient = new Client(clientSocket, ois, this);
+        connectedClient = new Client(clientSocket, ois, user, this);
         clients.put(user, connectedClient);
         onlineUserList.add(user);
 
@@ -58,7 +59,16 @@ public class ControllerServer {
         return true;
     }
 
-    public void disconnectUser(String username) {
+    public synchronized void disconnectUser(User user) {
+        System.out.println("Removing connection: " + user);
+        onlineUserList.remove(user);
+        clients.remove(user);
+
+        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
+            System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
+            Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
+            client.updateConnectedList(onlineUserList);
+        }
     }
 
     public ArrayList<User> getConnectedUsers() {
