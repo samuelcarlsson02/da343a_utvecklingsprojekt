@@ -41,7 +41,7 @@ public class ServerHandler {
         {
             try (ServerSocket serverSocket = new ServerSocket(port))
             {
-                while(true)
+                while(!isInterrupted())
                 {
                     try
                     {
@@ -53,11 +53,11 @@ public class ServerHandler {
                         System.out.println("User " + user.getUsername() + " is created");
 
                         controllerServer.connectUser(user, ois, socket);
-                        System.out.println("After connectuser method");
+
                     }
                     catch(IOException ex)
                     {
-                        System.err.println(ex);
+                        ex.printStackTrace();
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeException(e);
                     }

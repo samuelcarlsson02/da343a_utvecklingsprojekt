@@ -25,6 +25,8 @@ public class ControllerClient {
 
     public ControllerClient(){
         contactList = new ContactList();
+        onlineUserList = new OnlineUserList();
+        contactList.readFromFile("contactList");
         loginPanel = new LoginPanel(this);
         clientChat = new ClientChat(this);
     }
@@ -51,7 +53,8 @@ public class ControllerClient {
     public void loggedOut(){
         clientChat.setVisible(false);
         loginPanel.setVisible(true);
-        clientServerConnection.disconnect();
+        clientServerConnection.disconnect(loggedInUser);
+        onlineUserList.remove(loggedInUser);
     }
 
     public User getLoggedInUser() {
@@ -81,10 +84,11 @@ public class ControllerClient {
     }
 
     public void updateOnlineUsers(OnlineUserList userList) {
-        for (int i = 0; i < userList.getOnlineUsers().size(); i++) {
-            System.out.println(userList.getOnlineUsers().get(i).getUsername());
+        onlineUserList = userList;
+        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
+            System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
         }
-        clientChat.displayConnectedUsers(userList.getOnlineUsers());
+        clientChat.displayConnectedUsers(onlineUserList.getOnlineUsers());
     }
 
     public void updateContactList(ContactList contactList){
