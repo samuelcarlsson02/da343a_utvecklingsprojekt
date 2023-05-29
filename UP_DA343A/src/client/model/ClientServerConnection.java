@@ -45,9 +45,15 @@ public class ClientServerConnection {
         return false;
     }
 
-    public void disconnect(){
+    public void disconnect(User user){
+        System.out.println(user.getUsername() + " has disconnected (clientserverconnection)");
         clientInput.interrupt();
         serverOutput.interrupt();
+        try {
+            socket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void addMessage(ChatMessage message) {
@@ -97,8 +103,10 @@ public class ClientServerConnection {
                     Message message = messageBuffer.get();
                     oos.writeObject(message);
                     oos.flush();
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    interrupt();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             }
         }
@@ -140,7 +148,7 @@ public class ClientServerConnection {
                     }
 
                 } catch (EOFException | SocketException e) {
-                    e.printStackTrace();
+                    interrupt();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }

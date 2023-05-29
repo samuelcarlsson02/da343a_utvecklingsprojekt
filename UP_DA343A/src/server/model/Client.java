@@ -12,17 +12,21 @@ import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Client {
+public class Client
+{
     private Socket socket;
     private Buffer<Message> messageBuffer;
     private Logger logger;
+    private User user;
     private ControllerServer controllerServer;
     private ClientOutputHandler outputHandler;
     private ClientInputHandler inputHandler;
 
-    public Client(Socket socket, ObjectInputStream ois, ControllerServer controllerServer) {
+    public Client(Socket socket, ObjectInputStream ois, User user, ControllerServer controllerServer)
+    {
         this.socket = socket;
         this.controllerServer = controllerServer;
+        this.user = user;
 
         logger = new Logger(controllerServer);
         messageBuffer = new Buffer<>();
@@ -38,40 +42,52 @@ public class Client {
         }
     }
 
-    public void updateConnectedList(OnlineUserList onlineUserList) {
+    private void inputConnectionDropped()
+    {
+        outputHandler.interrupt();
+        controllerServer.disconnectUser(user);
+    }
+
+    public void updateConnectedList(OnlineUserList onlineUserList)
+    {
         messageBuffer.put(onlineUserList);
     }
 
-    public void updateContactList(ContactList contactList){
+    public void updateContactList(ContactList contactList)
+    {
         messageBuffer.put(contactList);
     }
 
-    public void sendMessages(ArrayList<Message> messages) {
+    public void sendMessages(ArrayList<Message> messages)
+    {
         for (Message message : messages) {
             messageBuffer.put(message);
         }
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message)
+    {
         messageBuffer.put(message);
     }
 
-    private class ClientOutputHandler extends Thread {
+    private class ClientOutputHandler extends Thread
+    {
         private Socket socket;
         private ObjectOutputStream oos;
 
-        public ClientOutputHandler(Socket socket) throws IOException {
+        public ClientOutputHandler(Socket socket) throws IOException
+        {
             this.socket = socket;
         }
 
-        public void run() {
+        public void run()
+        {
             try {
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 while (!isInterrupted()) {
                     Message message = messageBuffer.get();
 
-                    if (message instanceof OnlineUserList onlineUserList)
-                    {
+                    if (message instanceof OnlineUserList onlineUserList) {
                         oos.writeObject(onlineUserList);
                         oos.flush();
                         oos.reset();
@@ -82,7 +98,7 @@ public class Client {
                         oos.flush();
                         oos.reset();
                         logger.addLogEntry("Message received: " + message);
-                    } else if (message instanceof ContactList contactList){
+                    } else if (message instanceof ContactList contactList) {
                         oos.writeObject(contactList);
                         oos.flush();
                         oos.reset();
@@ -90,22 +106,24 @@ public class Client {
                     }
                 }
             } catch (SocketException | SocketTimeoutException e) {
-               try {
-                   socket.close();
-                   interrupt();
-               } catch (IOException ex) {
-                   e.printStackTrace();
-                   ex.printStackTrace();
-               }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    interrupt();
+                    socket.close();
+                } catch (IOException ex) {
+                    e.printStackTrace();
+                    ex.printStackTrace();
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Thread interrupted");
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
             outputHandler.interrupt();
         }
     }
 
-    private class ClientInputHandler extends Thread {
-        private Socket socket;
+    private class ClientInputHandler extends Thread
+    {
         private ObjectInputStream ois;
 
         public ClientInputHandler(ObjectInputStream ois) throws IOException
@@ -113,22 +131,39 @@ public class Client {
             this.ois = ois;
         }
 
-        public void run() {
+        public void run()
+        {
             try {
                 while (!isInterrupted()) {
                     Message message = (Message) ois.readObject();
 
-                    if(message instanceof ChatMessage chatMessage){
+                    if (message instanceof ChatMessage chatMessage) {
                         chatMessage.setTimeReceived(controllerServer.getCurrentDateAndTime());
                         logger.addLogEntry("Message sent: " + chatMessage);
                         controllerServer.handleMessage(chatMessage);
-                    } else if(message instanceof ContactList contactList){
+                    } else if (message instanceof ContactList contactList) {
                         logger.addLogEntry("Adding contact");
                         controllerServer.writeToContactList(contactList);
                     }
                 }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+            } catch (SocketException e) {
+                try {
+                    ois.close();
+                    interrupt();
+                    inputConnectionDropped();
+                } catch (IOException ex) {
+                    e.printStackTrace();
+                    ex.printStackTrace();
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                try {
+                    ois.close();
+                    interrupt();
+                    inputConnectionDropped();
+                } catch (IOException ex) {
+                    e.printStackTrace();
+                    ex.printStackTrace();
+                }
             }
         }
     }
