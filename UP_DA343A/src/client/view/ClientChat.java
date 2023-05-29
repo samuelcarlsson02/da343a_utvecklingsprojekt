@@ -220,7 +220,7 @@ public class ClientChat extends javax.swing.JFrame {
         controllerClient.sendMessage(messagePane.getText(), selectedImage, receivers);
 
         receiversList.setModel(new DefaultListModel<>());
-        
+
         messagePane.setText(null);
         choosePictureBtn.setIcon(null);
         choosePictureBtn.setText("Choose picture");
