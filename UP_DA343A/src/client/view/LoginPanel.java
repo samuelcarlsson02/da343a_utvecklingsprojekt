@@ -125,7 +125,6 @@ public class LoginPanel extends javax.swing.JFrame {
     }
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {
-
         String username = usernameTxtPane.getText();
         ImageIcon image = (ImageIcon) profilePicture.getIcon();
 

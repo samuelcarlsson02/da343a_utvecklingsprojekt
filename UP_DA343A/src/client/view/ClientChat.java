@@ -209,21 +209,26 @@ public class ClientChat extends javax.swing.JFrame {
     }// </editor-fold>
 
     private void sendMessageBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        User[] receivers = new User[receiversList.getModel().getSize()];
+        if(receiverModel.size() > 0){
+            User[] receivers = new User[receiversList.getModel().getSize()];
 
-        for (int i = 0; i < receiversList.getModel().getSize(); i++)
-        {
-            User receiver = new User(receiversList.getModel().getElementAt(i), null);
-            receivers[i] = receiver;
+            for (int i = 0; i < receiversList.getModel().getSize(); i++)
+            {
+                User receiver = new User(receiversList.getModel().getElementAt(i), null);
+                receivers[i] = receiver;
+            }
+
+            controllerClient.sendMessage(messagePane.getText(), selectedImage, receivers);
+
+            receiversList.setModel(new DefaultListModel<>());
+            receiverModel.clear();
+            messagePane.setText(null);
+            choosePictureBtn.setIcon(null);
+            choosePictureBtn.setText("Choose picture");
         }
-
-        controllerClient.sendMessage(messagePane.getText(), selectedImage, receivers);
-
-        receiversList.setModel(new DefaultListModel<>());
-
-        messagePane.setText(null);
-        choosePictureBtn.setIcon(null);
-        choosePictureBtn.setText("Choose picture");
+        else{
+            JOptionPane.showMessageDialog(null, "select at least one receiver");
+        }
     }
 
     private void choosePictureBtnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,8 +275,16 @@ public class ClientChat extends javax.swing.JFrame {
     }
 
     private void receiverBtnActionPerformed(java.awt.event.ActionEvent evt){
-        receiverModel.addElement(contactsList.getSelectedValue());
+        if(contactsList.getSelectedValue() != null){
+            receiverModel.addElement(contactsList.getSelectedValue());
+        }
+        if(usersOnlineList.getSelectedValue() != null){
+            receiverModel.addElement(usersOnlineList.getSelectedValue().getUsername());
+        }
+
         receiversList.setModel(receiverModel);
+        contactsList.clearSelection();
+        usersOnlineList.clearSelection();
     }
 
     private void contactBtnActionPerformed(java.awt.event.ActionEvent evt){

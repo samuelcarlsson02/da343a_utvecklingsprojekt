@@ -135,6 +135,7 @@ public class ControllerServer {
         String username = contacts.get(0);
         for(int i = 1; i < contacts.size(); i++){
             String contact = contactList.getContacts().get(i);
+            System.out.println(contact);
             fileManager.writeToFile("contactList.txt", username + ": " + contact);
         }
     }

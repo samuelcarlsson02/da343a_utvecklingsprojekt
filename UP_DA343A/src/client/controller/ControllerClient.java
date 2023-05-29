@@ -24,9 +24,7 @@ public class ControllerClient {
     ClientServerConnection clientServerConnection;
 
     public ControllerClient(){
-        contactList = new ContactList();
         onlineUserList = new OnlineUserList();
-        contactList.readFromFile("contactList");
         loginPanel = new LoginPanel(this);
         clientChat = new ClientChat(this);
     }
@@ -34,7 +32,7 @@ public class ControllerClient {
     public boolean connectToServer(String username, ImageIcon image, String ip, int port){
         loggedInUser = new User(username, image);
         clientServerConnection = new ClientServerConnection(this, ip, port);
-        contactList.addContact(loggedInUser.getUsername());
+        initializeContacts(loggedInUser.getUsername());
 
         boolean connected = clientServerConnection.connectUser(loggedInUser);
         if (connected) {
@@ -102,6 +100,12 @@ public class ControllerClient {
     public void addToContactList(String contact){
         contactList.addContact(contact);
         clientServerConnection.addContactList(contactList);
+        initializeContacts(loggedInUser.getUsername());
+    }
+
+    public void initializeContacts(String username){
+        contactList = new ContactList();
+        contactList.addContact(username);
     }
 
     public ArrayList<String> getConnectedUsers(){

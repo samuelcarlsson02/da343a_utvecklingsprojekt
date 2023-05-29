@@ -146,3 +146,144 @@
 2023-05-29 09:25:12: Contacts updated.
 2023-05-29 09:25:12: Online users updated.
 2023-05-29 09:25:28: User samuel is offline.
+2023-05-29 13:18:59: User samuel is online.
+2023-05-29 13:18:59: Contacts updated.
+2023-05-29 13:18:59: Online users updated.
+2023-05-29 13:19:25: User samuel is offline.
+2023-05-29 13:22:53: User samuel is online.
+2023-05-29 13:22:53: Contacts updated.
+2023-05-29 13:22:53: Online users updated.
+2023-05-29 13:23:04: User tim is online.
+2023-05-29 13:23:04: Contacts updated.
+2023-05-29 13:23:04: Online users updated.
+2023-05-29 13:23:04: Online users updated.
+2023-05-29 13:23:14: User alex is online.
+2023-05-29 13:23:14: Online users updated.
+2023-05-29 13:23:14: Online users updated.
+2023-05-29 13:23:14: Contacts updated.
+2023-05-29 13:23:14: Online users updated.
+2023-05-29 13:24:32: User tim is offline.
+2023-05-29 13:24:32: Online users updated.
+2023-05-29 13:24:32: Online users updated.
+2023-05-29 13:24:33: User samuel is offline.
+2023-05-29 13:24:33: Online users updated.
+2023-05-29 13:24:34: User alex is offline.
+2023-05-29 13:25:30: User samuel is online.
+2023-05-29 13:25:30: Contacts updated.
+2023-05-29 13:25:30: Online users updated.
+2023-05-29 13:25:40: User alex is online.
+2023-05-29 13:25:40: Contacts updated.
+2023-05-29 13:25:40: Online users updated.
+2023-05-29 13:25:40: Online users updated.
+2023-05-29 13:25:53: User tim is online.
+2023-05-29 13:25:53: Contacts updated.
+2023-05-29 13:25:53: Online users updated.
+2023-05-29 13:25:53: Online users updated.
+2023-05-29 13:25:53: Online users updated.
+2023-05-29 13:26:19: Message sent: 'hej', from: tim, to: alex, samuel
+2023-05-29 13:26:19: Message received: 'hej', from: tim, to: alex, samuel
+2023-05-29 13:26:19: Message received: 'hej', from: tim, to: alex, samuel
+2023-05-29 13:26:38: User tim is offline.
+2023-05-29 13:26:38: Online users updated.
+2023-05-29 13:26:38: Online users updated.
+2023-05-29 13:26:40: User samuel is offline.
+2023-05-29 13:26:40: Online users updated.
+2023-05-29 13:26:41: User alex is offline.
+2023-05-29 13:31:44: User hej is online.
+2023-05-29 13:31:44: Contacts updated.
+2023-05-29 13:31:44: Online users updated.
+2023-05-29 13:31:52: Message sent: 'hej', from: hej, to: samuel
+2023-05-29 13:32:04: User hej is offline.
+2023-05-29 13:33:31: User samuel is online.
+2023-05-29 13:33:31: Contacts updated.
+2023-05-29 13:33:31: Online users updated.
+2023-05-29 13:33:39: Message sent: 'hej', from: samuel, to: alex
+2023-05-29 13:33:50: User samuel is offline.
+2023-05-29 13:34:59: User samuel is online.
+2023-05-29 13:34:59: Contacts updated.
+2023-05-29 13:34:59: Online users updated.
+2023-05-29 13:35:08: Message sent: 'hej', from: samuel, to: alex
+2023-05-29 13:35:18: User samuel is offline.
+2023-05-29 13:35:51: User samuel is online.
+2023-05-29 13:35:51: Contacts updated.
+2023-05-29 13:35:51: Online users updated.
+2023-05-29 13:35:57: Message sent: 'hej', from: samuel, to: tim
+2023-05-29 13:36:10: User samuel is offline.
+2023-05-29 13:37:03: User samuel is online.
+2023-05-29 13:37:03: Contacts updated.
+2023-05-29 13:37:03: Online users updated.
+2023-05-29 13:37:09: Message sent: 'hrj', from: samuel, to: alex
+2023-05-29 13:37:15: Message sent: 'hej', from: samuel, to: tim
+2023-05-29 13:41:19: User samuel is online.
+2023-05-29 13:41:19: Contacts updated.
+2023-05-29 13:41:19: Online users updated.
+2023-05-29 13:41:41: User samuel is offline.
+2023-05-29 13:42:40: User samuel is online.
+2023-05-29 13:42:40: Contacts updated.
+2023-05-29 13:42:40: Online users updated.
+2023-05-29 13:42:55: Message sent: 'hej', from: samuel, to: tim
+2023-05-29 13:43:20: User samuel is offline.
+2023-05-29 13:46:17: User test is online.
+2023-05-29 13:46:17: Contacts updated.
+2023-05-29 13:46:17: Online users updated.
+2023-05-29 13:46:28: User test2 is online.
+2023-05-29 13:46:28: Contacts updated.
+2023-05-29 13:46:28: Online users updated.
+2023-05-29 13:46:28: Online users updated.
+2023-05-29 13:46:37: User test3 is online.
+2023-05-29 13:46:37: Contacts updated.
+2023-05-29 13:46:37: Online users updated.
+2023-05-29 13:46:37: Online users updated.
+2023-05-29 13:46:37: Online users updated.
+2023-05-29 13:46:50: Adding contact
+2023-05-29 13:47:03: Adding contact
+2023-05-29 13:47:38: User test3 is offline.
+2023-05-29 13:47:38: Online users updated.
+2023-05-29 13:47:39: Online users updated.
+2023-05-29 13:49:25: User test is online.
+2023-05-29 13:49:25: Contacts updated.
+2023-05-29 13:49:25: Online users updated.
+2023-05-29 13:49:33: User test2 is online.
+2023-05-29 13:49:33: Contacts updated.
+2023-05-29 13:49:33: Online users updated.
+2023-05-29 13:49:33: Online users updated.
+2023-05-29 13:49:42: User test3 is online.
+2023-05-29 13:49:42: Online users updated.
+2023-05-29 13:49:42: Contacts updated.
+2023-05-29 13:49:42: Online users updated.
+2023-05-29 13:49:42: Online users updated.
+2023-05-29 13:49:59: Adding contact
+2023-05-29 13:50:05: Adding contact
+2023-05-29 13:50:39: User test2 is offline.
+2023-05-29 13:50:39: Online users updated.
+2023-05-29 13:50:39: Online users updated.
+2023-05-29 13:50:41: User test3 is offline.
+2023-05-29 13:50:41: Online users updated.
+2023-05-29 13:53:30: User test is online.
+2023-05-29 13:53:30: Contacts updated.
+2023-05-29 13:53:30: Online users updated.
+2023-05-29 13:53:34: User test2 is online.
+2023-05-29 13:53:34: Online users updated.
+2023-05-29 13:53:34: Contacts updated.
+2023-05-29 13:53:34: Online users updated.
+2023-05-29 13:53:39: User test3 is online.
+2023-05-29 13:53:39: Contacts updated.
+2023-05-29 13:53:39: Online users updated.
+2023-05-29 13:53:39: Online users updated.
+2023-05-29 13:53:39: Online users updated.
+2023-05-29 13:53:43: Adding contact
+2023-05-29 13:53:45: Adding contact
+2023-05-29 13:53:59: User test3 is offline.
+2023-05-29 13:53:59: Online users updated.
+2023-05-29 13:53:59: Online users updated.
+2023-05-29 13:54:00: User test3 is online.
+2023-05-29 13:54:00: Online users updated.
+2023-05-29 13:54:00: Online users updated.
+2023-05-29 13:54:00: Contacts updated.
+2023-05-29 13:54:00: Online users updated.
+2023-05-29 13:54:03: User test3 is offline.
+2023-05-29 13:54:03: Online users updated.
+2023-05-29 13:54:03: Online users updated.
+2023-05-29 13:54:04: User test2 is offline.
+2023-05-29 13:54:04: Online users updated.
+2023-05-29 13:54:06: User test is offline.
