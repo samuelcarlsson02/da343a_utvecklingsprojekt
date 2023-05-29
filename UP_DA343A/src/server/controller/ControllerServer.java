@@ -74,6 +74,7 @@ public class ControllerServer {
 
     public synchronized void disconnectUser(User user) {
         System.out.println("Removing connection: " + user);
+        logger.addLogEntry("User " + user.getUsername() + " is offline.");
         onlineUserList.remove(user);
         clients.remove(user);
 
