@@ -16,6 +16,6 @@ public class Logger {
     }
 
     public String[] getLogEntries(String startTime, String endTime) {
-        return fileManager.readFromFile("serverlog.txt", startTime, endTime);
+        return fileManager.readFromLog("serverlog.txt", startTime, endTime);
     }
 }

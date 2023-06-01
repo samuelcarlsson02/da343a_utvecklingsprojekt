@@ -126,7 +126,7 @@ public class ControllerServer {
      * @return the ContactList object representing the user's contact list
      */
     public ContactList getContactList(String username){
-        ArrayList<String> contacts = fileManager.readFromFile(username, "contactList.txt");
+        ArrayList<String> contacts = fileManager.readFromContacts(username, "contactList.txt");
         contactList.setContactList(contacts);
 
         return contactList;

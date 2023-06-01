@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class FileManager {
 
-    public ArrayList<String> readFromFile(String username, String filename) {
+    public ArrayList<String> readFromContacts(String username, String filename) {
         ArrayList<String> contacts = new ArrayList<>();
         String filepath = getFilesFolderPath() + File.separator + filename;
         try (BufferedReader reader = new BufferedReader(new FileReader(filepath))) {
@@ -27,7 +27,7 @@ public class FileManager {
         return contacts;
     }
 
-    public String[] readFromFile(String filename, String startTime, String endTime) {
+    public String[] readFromLog(String filename, String startTime, String endTime) {
         ArrayList<String> filteredRows = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalTime startLocalTime = LocalTime.parse(startTime);
