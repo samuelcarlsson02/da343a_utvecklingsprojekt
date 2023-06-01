@@ -261,6 +261,7 @@ public class ClientChat extends javax.swing.JFrame {
         userModel.clear();
         chatMessagesList.setModel(new DefaultListModel<>());
         chatModel.clear();
+        chatMessagesList.setModel(chatModel);
 
         messagePane.setText(null);
         choosePictureBtn.setIcon(null);

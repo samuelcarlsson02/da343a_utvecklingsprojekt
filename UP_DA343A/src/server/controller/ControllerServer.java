@@ -46,7 +46,7 @@ public class ControllerServer {
         return now.format(formatter);
     }
 
-    public boolean connectUser(User user, ObjectInputStream ois, Socket clientSocket) {
+    public void connectUser(User user, ObjectInputStream ois, Socket clientSocket) {
         logger.addLogEntry("User " + user.getUsername() + " is online.");
 
         connectedClient = new Client(clientSocket, ois, user, this);
@@ -55,8 +55,8 @@ public class ControllerServer {
         contactList = getContactList(user.getUsername());
         connectedClient.updateContactList(contactList);
 
-        if(unsentMessages.getMessage(user) != null){
-            ArrayList<ChatMessage> unsentMessagesUser = unsentMessages.getUnsentMessagesFromUser(user);
+        if(unsentMessages.getMessages(user) != null){
+            ArrayList<ChatMessage> unsentMessagesUser = unsentMessages.getMessages(user);
             for (int i = 0; i < unsentMessagesUser.size(); i++) {
                 connectedClient.sendMessage(unsentMessagesUser.get(i));
                 unsentMessages.removeMessage(user, unsentMessagesUser.get(i));
@@ -68,13 +68,6 @@ public class ControllerServer {
             Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
             client.updateConnectedList(onlineUserList);
         }
-
-        //messages = new ArrayList<>();
-        //messages = unsentMessages.getMessage(user);
-
-        //client.sendMessages(messages);
-
-        return true;
     }
 
     public synchronized void disconnectUser(User user) {

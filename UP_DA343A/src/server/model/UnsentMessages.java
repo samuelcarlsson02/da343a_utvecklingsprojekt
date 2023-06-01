@@ -6,35 +6,28 @@ import model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class UnsentMessages {
-    private HashMap<User, ChatMessage> unsentMessages;
+    private HashMap<User, ArrayList<ChatMessage>> unsentMessages;
+    private ArrayList<ChatMessage> messages;
 
     public UnsentMessages(){
         unsentMessages = new HashMap<>();
+        messages = new ArrayList<>();
     }
 
     public synchronized void putMessage(User user, ChatMessage message) {
-        unsentMessages.put(user, message);
+        messages.add(message);
+        unsentMessages.put(user, messages);
     }
 
-    public synchronized Message getMessage(User user) {
+    public synchronized ArrayList<ChatMessage> getMessages(User user) {
         return unsentMessages.get(user);
     }
 
     public synchronized void removeMessage(User user, ChatMessage message){
-        unsentMessages.remove(user, message);
-    }
-
-    public ArrayList<ChatMessage> getUnsentMessagesFromUser(User user) {
-        ArrayList<ChatMessage> userMessages = new ArrayList<>();
-
-        for (User u : unsentMessages.keySet()) {
-            if (u.equals(user)) {
-                userMessages.add(unsentMessages.get(u));
-            }
-        }
-
-        return userMessages;
+        messages.remove(message);
+        unsentMessages.put(user, messages);
     }
 }
