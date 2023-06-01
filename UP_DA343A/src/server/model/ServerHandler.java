@@ -1,18 +1,15 @@
 package server.model;
 
-import model.Message;
 import model.User;
 import server.controller.ControllerServer;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class ServerHandler {
     private ControllerServer controllerServer;
-    private ServerSocket serverSocket;
     private int port;
 
     public ServerHandler (int port, ControllerServer controllerServer) {
@@ -45,12 +42,9 @@ public class ServerHandler {
                 {
                     try
                     {
-                        System.out.println("Waiting for client to connect");
                         Socket socket = serverSocket.accept();
-                        System.out.println("Client connecting");
                         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                         User user = (User) ois.readObject();
-                        System.out.println("User " + user.getUsername() + " is created");
 
                         controllerServer.connectUser(user, ois, socket);
 

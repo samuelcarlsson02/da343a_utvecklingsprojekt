@@ -28,15 +28,7 @@ public class User implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public ImageIcon getImage() {
         return image;
-    }
-
-    public void setImage(ImageIcon image) {
-        this.image = image;
     }
 }

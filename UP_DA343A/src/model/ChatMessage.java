@@ -1,7 +1,6 @@
 package model;
 
 import javax.swing.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class ChatMessage extends Message{
@@ -11,16 +10,6 @@ public class ChatMessage extends Message{
     private ImageIcon image;
     private String timeReceived;
     private String timeDelivered;
-    private String username;
-    private ImageIcon userPicture;
-
-    public ChatMessage(String username, ImageIcon userPicture, String text, ImageIcon image, String timeReceived){
-        this.username = username;
-        this.userPicture = userPicture;
-        this.text = text;
-        this.image = image;
-        this.timeReceived = timeReceived;
-    }
 
     public ChatMessage(User sender, User[] recipientList, String text, ImageIcon image, String timeReceived, String timeDelivered) {
         this.sender = sender;
@@ -39,10 +28,6 @@ public class ChatMessage extends Message{
         return image;
     }
 
-    public User getUser() {
-        return sender;
-    }
-
     public String getTimeReceived() {
         return timeReceived;
     }
@@ -51,16 +36,12 @@ public class ChatMessage extends Message{
         this.timeReceived = timeReceived;
     }
 
-    public String getTimeDelivered() {
-        return timeDelivered;
-    }
-
-    public void setTimeDelivered(String timeDelivered) {
-        this.timeDelivered = timeDelivered;
-    }
-
     public User[] getRecipientList() {
         return recipientList;
+    }
+
+    public User getUser() {
+        return sender;
     }
 
     public String toString(){

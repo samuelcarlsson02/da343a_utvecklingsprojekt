@@ -11,17 +11,14 @@ import client.view.LoginPanel;
 import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class ControllerClient {
-    private String username;
-    private ImageIcon image;
     private User loggedInUser;
     private LoginPanel loginPanel;
     private ClientChat clientChat;
     private ContactList contactList;
     private OnlineUserList onlineUserList;
-    ClientServerConnection clientServerConnection;
+    private ClientServerConnection clientServerConnection;
 
     public ControllerClient(){
         onlineUserList = new OnlineUserList();
@@ -35,10 +32,6 @@ public class ControllerClient {
         initializeContacts(loggedInUser.getUsername());
 
         boolean connected = clientServerConnection.connectUser(loggedInUser);
-        if (connected) {
-            System.out.println("Connection established in ControllerClient");
-            return connected;
-        }
 
         return connected;
     }
@@ -51,7 +44,7 @@ public class ControllerClient {
     public void loggedOut(){
         clientChat.setVisible(false);
         loginPanel.setVisible(true);
-        clientServerConnection.disconnect(loggedInUser);
+        clientServerConnection.disconnect();
         onlineUserList.remove(loggedInUser);
     }
 
@@ -64,7 +57,7 @@ public class ControllerClient {
                                         getCurrentDateAndTime(), getCurrentDateAndTime());
 
         clientServerConnection.addMessage(message);
-        clientChat.showSentMessage(message);
+        clientChat.showMessage(message);
     }
 
     public String getCurrentDateAndTime(){
@@ -73,19 +66,12 @@ public class ControllerClient {
         return now.format(formatter);
     }
 
-    public void disconnect() {
-
-    }
-
     public void receiveMessage(ChatMessage message) {
-        clientChat.showNewMessage(message);
+        clientChat.showMessage(message);
     }
 
     public void updateOnlineUsers(OnlineUserList userList) {
         onlineUserList = userList;
-        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
-            System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
-        }
         clientChat.displayConnectedUsers(onlineUserList.getOnlineUsers());
     }
 
@@ -93,29 +79,14 @@ public class ControllerClient {
         clientChat.displayContactList(contactList.getContacts());
     }
 
-    public ArrayList<String> getContactList(){
-        return contactList.getContacts();
-    }
-
     public void addToContactList(String contact){
         contactList.addContact(contact);
-        clientServerConnection.addContactList(contactList);
+        clientServerConnection.addMessage(contactList);
         initializeContacts(loggedInUser.getUsername());
     }
 
     public void initializeContacts(String username){
         contactList = new ContactList();
         contactList.addContact(username);
-    }
-
-    public ArrayList<String> getConnectedUsers(){
-        ArrayList<String> users = new ArrayList<>();
-        ArrayList<User> onlineUsers = onlineUserList.getOnlineUsers();
-
-        for (int i = 0; i < onlineUsers.size(); i++) {
-            users.add(onlineUsers.get(i).getUsername());
-        }
-
-        return users;
     }
 }

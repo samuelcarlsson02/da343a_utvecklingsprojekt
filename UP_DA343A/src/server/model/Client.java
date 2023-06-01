@@ -9,8 +9,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 public class Client
 {
@@ -48,24 +46,7 @@ public class Client
         controllerServer.disconnectUser(user);
     }
 
-    public void updateConnectedList(OnlineUserList onlineUserList)
-    {
-        messageBuffer.put(onlineUserList);
-    }
-
-    public void updateContactList(ContactList contactList)
-    {
-        messageBuffer.put(contactList);
-    }
-
-    public void sendMessages(ArrayList<Message> messages)
-    {
-        for (Message message : messages) {
-            messageBuffer.put(message);
-        }
-    }
-
-    public void sendMessage(Message message)
+    public void addMessage(Message message)
     {
         messageBuffer.put(message);
     }
@@ -92,11 +73,11 @@ public class Client
                         oos.flush();
                         oos.reset();
                         logger.addLogEntry("Online users updated for " + user.getUsername());
-                        System.out.println("Size when sending to client = " + onlineUserList.getOnlineUsers().size());
                     } else if (message instanceof ChatMessage chatMessage) {
                         oos.writeObject(chatMessage);
                         oos.flush();
                         oos.reset();
+                        chatMessage.setTimeReceived(controllerServer.getCurrentDateAndTime());
                         logger.addLogEntry("Message received for " + user.getUsername() + ": " + message);
                     } else if (message instanceof ContactList contactList) {
                         oos.writeObject(contactList);
@@ -138,22 +119,12 @@ public class Client
                     Message message = (Message) ois.readObject();
 
                     if (message instanceof ChatMessage chatMessage) {
-                        chatMessage.setTimeReceived(controllerServer.getCurrentDateAndTime());
                         logger.addLogEntry("Message sent: " + chatMessage);
                         controllerServer.handleMessage(chatMessage);
                     } else if (message instanceof ContactList contactList) {
                         logger.addLogEntry(user.getUsername() + " added " + contactList.getAddedContact() + " to contact list");
                         controllerServer.writeToContactList(contactList);
                     }
-                }
-            } catch (SocketException e) {
-                try {
-                    ois.close();
-                    interrupt();
-                    inputConnectionDropped();
-                } catch (IOException ex) {
-                    e.printStackTrace();
-                    ex.printStackTrace();
                 }
             } catch (IOException | ClassNotFoundException e) {
                 try {

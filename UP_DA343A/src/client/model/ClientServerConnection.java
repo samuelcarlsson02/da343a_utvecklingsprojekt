@@ -2,7 +2,6 @@ package client.model;
 
 import client.controller.ControllerClient;
 import model.*;
-import server.model.ServerHandler;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.net.SocketException;
 
 public class ClientServerConnection {
     private ControllerClient controller;
-    private ServerHandler serverHandler;
     private String ip;
     private int port;
     private Socket socket;
@@ -26,7 +24,6 @@ public class ClientServerConnection {
         this.port = port;
         try {
             socket = new Socket(ip, port);
-
             clientInput = new ClientInput(socket);
             serverOutput = new ServerOutput(socket);
         } catch (IOException e) {
@@ -38,15 +35,13 @@ public class ClientServerConnection {
         clientInput.setUser(user);
         clientInput.start();
 
-        if (socket.isConnected()) {
-            System.out.println("Connection established in ClientServerConnection");
+        if(socket.isConnected()) {
             return true;
         }
         return false;
     }
 
-    public void disconnect(User user){
-        System.out.println(user.getUsername() + " has disconnected (clientserverconnection)");
+    public void disconnect(){
         clientInput.interrupt();
         serverOutput.interrupt();
         try {
@@ -56,12 +51,8 @@ public class ClientServerConnection {
         }
     }
 
-    public void addMessage(ChatMessage message) {
+    public void addMessage(Message message) {
         clientInput.addMessage(message);
-    }
-
-    public void addContactList(ContactList contactList){
-        clientInput.addContactList(contactList);
     }
 
 
@@ -80,12 +71,8 @@ public class ClientServerConnection {
             this.user = user;
         }
 
-        public void addMessage(ChatMessage message) {
+        public void addMessage(Message message) {
             messageBuffer.put(message);
-        }
-
-        public void addContactList(ContactList contactList){
-            messageBuffer.put(contactList);
         }
 
         public void run() {
@@ -93,7 +80,6 @@ public class ClientServerConnection {
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 oos.writeObject(user);
                 oos.flush();
-                System.out.println("User info sent");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -134,14 +120,8 @@ public class ClientServerConnection {
                     Object obj = ois.readObject();
 
                     if (obj instanceof ChatMessage chatMessage) {
-                        System.out.println("Message received");
-                        if (chatMessage.getUser() != null)
-                        {
-                            System.out.println(chatMessage.getUser());
-                        }
                         controller.receiveMessage(chatMessage);
                     } else if (obj instanceof OnlineUserList onlineUserList) {
-                        System.out.println(onlineUserList.getOnlineUsers().size());
                         controller.updateOnlineUsers(onlineUserList);
                     } else if (obj instanceof ContactList contactList){
                         controller.updateContactList(contactList);

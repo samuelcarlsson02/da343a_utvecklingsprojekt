@@ -19,8 +19,6 @@ public class LoginPanel extends javax.swing.JFrame {
     public LoginPanel(ControllerClient controllerClient) {
         this.controllerClient = controllerClient;
         initComponents();
-        ipTxtPane.setText("192.168.0.109");
-        portTxtPane.setText(String.valueOf(3343));
         setVisible(true);
     }
 
@@ -44,6 +42,7 @@ public class LoginPanel extends javax.swing.JFrame {
         jLabel1.setText("IP-address:");
 
         jLabel2.setText("Port:");
+        portTxtPane.setText(String.valueOf(3343));
 
         jLabel3.setText("Username:");
 

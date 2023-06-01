@@ -2,10 +2,6 @@ package server.model;
 
 import server.controller.ControllerServer;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-
 public class Logger {
     private FileManager fileManager;
     private ControllerServer controllerServer;
@@ -16,7 +12,6 @@ public class Logger {
     }
 
     public void addLogEntry(String logEntry) {
-        System.out.println("Writing to logger: " + logEntry);
         fileManager.writeToFile("serverlog.txt", controllerServer.getCurrentDateAndTime() + ": " + logEntry);
     }
 

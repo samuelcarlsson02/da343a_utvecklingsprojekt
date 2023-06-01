@@ -4,29 +4,24 @@ import model.*;
 import server.model.*;
 import server.view.ServerLogger;
 
-import javax.swing.*;
 import java.io.ObjectInputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class ControllerServer {
-    private ArrayList<User> connectedUsers;
     private ServerLogger serverLogger;
     private Logger logger;
     private Clients clients;
     private UnsentMessages unsentMessages;
-    private ArrayList<Message> messages;
     private FileManager fileManager;
     private ServerHandler serverHandler;
     private OnlineUserList onlineUserList;
     private ContactList contactList;
     private Client connectedClient;
 
-    public ControllerServer() throws UnknownHostException
+    public ControllerServer()
     {
         serverLogger = new ServerLogger(this);
         serverHandler = new ServerHandler(3343, this);
@@ -36,8 +31,6 @@ public class ControllerServer {
         unsentMessages = new UnsentMessages();
         onlineUserList = new OnlineUserList();
         contactList = new ContactList();
-
-        System.out.println(InetAddress.getLocalHost());
     }
 
     public String getCurrentDateAndTime(){
@@ -53,50 +46,31 @@ public class ControllerServer {
         clients.put(user, connectedClient);
         onlineUserList.add(user);
         contactList = getContactList(user.getUsername());
-        connectedClient.updateContactList(contactList);
+        connectedClient.addMessage(contactList);
 
         if(unsentMessages.getMessages(user) != null){
             ArrayList<ChatMessage> unsentMessagesUser = unsentMessages.getMessages(user);
             for (int i = 0; i < unsentMessagesUser.size(); i++) {
-                connectedClient.sendMessage(unsentMessagesUser.get(i));
+                connectedClient.addMessage(unsentMessagesUser.get(i));
                 unsentMessages.removeMessage(user, unsentMessagesUser.get(i));
             }
         }
 
         for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
-            System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
             Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
-            client.updateConnectedList(onlineUserList);
+            client.addMessage(onlineUserList);
         }
     }
 
     public synchronized void disconnectUser(User user) {
-        System.out.println("Removing connection: " + user);
         logger.addLogEntry("User " + user.getUsername() + " is offline.");
         onlineUserList.remove(user);
         clients.remove(user);
 
         for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
-            System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
             Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
-            client.updateConnectedList(onlineUserList);
+            client.addMessage(onlineUserList);
         }
-    }
-
-    public ArrayList<User> getConnectedUsers() {
-      /*  String path = System.getProperty("user.dir");
-        String fileName = path + "\\files\\connectedUsers.txt";
-        ArrayList<String> usersString = fileManager.readFromFile(fileName);
-
-        for(int i = 0; i < usersString.size(); i++){
-            String[] split = usersString.get(i).split(",");
-            String username = split[0];
-            String picture = split[1];
-            connectedUsers.add(new User(username, new ImageIcon(path + picture)));
-        }
-
-        return connectedUsers;*/
-        return null;
     }
 
     public synchronized void handleMessage(Message message) {
@@ -108,10 +82,8 @@ public class ControllerServer {
             Client client = clients.get(user);
 
             if (client != null) {
-                System.out.println("Recipient found");
-                client.sendMessage(message);
+                client.addMessage(message);
             } else {
-                System.out.println("Recipient not found");
                 unsentMessages.putMessage(user, (ChatMessage) message);
             }
         }
@@ -133,7 +105,6 @@ public class ControllerServer {
         String username = contacts.get(0);
         for(int i = 1; i < contacts.size(); i++){
             String contact = contactList.getContacts().get(i);
-            System.out.println(contact);
             fileManager.writeToFile("contactList.txt", username + ": " + contact);
         }
     }

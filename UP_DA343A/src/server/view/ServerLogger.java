@@ -38,7 +38,7 @@ public class ServerLogger extends javax.swing.JFrame {
         jButton1.setText("Display logger");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                displayLoggerButtonActionPerformed(evt);
             }
         });
 
@@ -90,7 +90,7 @@ public class ServerLogger extends javax.swing.JFrame {
         pack();
     }// </editor-fold>
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    private void displayLoggerButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String[] serverLog = controllerServer.getServerLog((String)firstTimeComboBox.getSelectedItem(), (String)secondTimeComboBox.getSelectedItem());
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (String item : serverLog) {

@@ -205,3 +205,27 @@
 2023-06-01 13:05:57: User tim is offline.
 2023-06-01 13:05:57: Online users updated for samuel
 2023-06-01 13:05:58: User samuel is offline.
+2023-06-01 13:58:31: User samuel is online.
+2023-06-01 13:58:31: Contacts updated for samuel
+2023-06-01 13:58:31: Online users updated for samuel
+2023-06-01 13:58:41: Message sent: 'hej', from: samuel, to: alex
+2023-06-01 13:58:53: User alex is online.
+2023-06-01 13:58:53: Contacts updated for alex
+2023-06-01 13:58:53: Online users updated for samuel
+2023-06-01 13:58:53: Message received for alex: 'hej', from: samuel, to: alex
+2023-06-01 13:58:53: Online users updated for alex
+2023-06-01 14:31:37: User samuel is online.
+2023-06-01 14:31:38: Contacts updated for samuel
+2023-06-01 14:31:38: Online users updated for samuel
+2023-06-01 14:31:44: Message sent: 'hej', from: samuel, to: alex
+2023-06-01 14:32:00: User alex is online.
+2023-06-01 14:32:00: Contacts updated for alex
+2023-06-01 14:32:00: Online users updated for samuel
+2023-06-01 14:32:00: Message received for alex: 'hej', from: samuel, to: alex
+2023-06-01 14:32:00: Online users updated for alex
+2023-06-01 14:32:40: Message sent: 'tjo', from: alex, to: samuel
+2023-06-01 14:32:40: Message received for samuel: 'tjo', from: alex, to: samuel
+2023-06-01 14:39:34: User samuel is online.
+2023-06-01 14:39:34: Contacts updated for samuel
+2023-06-01 14:39:34: Online users updated for samuel
+2023-06-01 14:39:39: User samuel is offline.

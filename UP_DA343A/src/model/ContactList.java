@@ -13,18 +13,6 @@ public class ContactList extends Message{
         contactList.add(username);
     }
 
-    public void removeContact(String username){
-
-    }
-
-    public void readFromFile(String filename){
-
-    }
-
-    public void saveToFile(String filename){
-
-    }
-
     public void setContactList(ArrayList<String> contactList) {
         this.contactList = contactList;
     }

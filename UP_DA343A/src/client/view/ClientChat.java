@@ -2,15 +2,12 @@ package client.view;
 
 import client.controller.ControllerClient;
 import model.ChatMessage;
-import model.Message;
 import model.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClientChat extends javax.swing.JFrame {
     private ControllerClient controllerClient;
@@ -268,14 +265,7 @@ public class ClientChat extends javax.swing.JFrame {
         choosePictureBtn.setText("Choose picture");
     }
 
-    public void showNewMessage(ChatMessage chatMessage){
-        System.out.println(chatMessage.getUser().getUsername() + " " + chatMessage.getTimeReceived() + " " + chatMessage.getText());
-        chatModel.addElement(chatMessage);
-
-        chatMessagesList.setModel(chatModel);
-    }
-
-    public void showSentMessage(ChatMessage chatMessage){
+    public void showMessage(ChatMessage chatMessage){
         chatModel.addElement(chatMessage);
         chatMessagesList.setModel(chatModel);
     }
@@ -305,17 +295,17 @@ public class ClientChat extends javax.swing.JFrame {
     }
 
     private void contactBtnActionPerformed(java.awt.event.ActionEvent evt){
-        User user = (User) usersOnlineList.getSelectedValue();
+        User user = usersOnlineList.getSelectedValue();
         controllerClient.addToContactList(user.getUsername());
         contactListModel.addElement(user.getUsername());
         contactsList.setModel(contactListModel);
         usersOnlineList.clearSelection();
     }
 
-    public void displayContactList(ArrayList<String> contactListArrayList){
+    public void displayContactList(ArrayList<String> contactList){
         contactListModel.clear();
-        for (int i = 0; i < contactListArrayList.size(); i++) {
-            contactListModel.addElement(contactListArrayList.get(i));
+        for (int i = 0; i < contactList.size(); i++) {
+            contactListModel.addElement(contactList.get(i));
         }
         contactsList.setModel(contactListModel);
     }

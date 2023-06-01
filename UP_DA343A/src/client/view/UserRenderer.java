@@ -6,8 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UserRenderer extends JLabel implements ListCellRenderer<User> {
-    private JLabel usernameLabel;
-    private JLabel profilePictureLabel;
 
     public UserRenderer()
     {
