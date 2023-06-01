@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * The ControllerServer class handles the server-side logic and communication with clients.
+ * @author Samuel Carlsson and Alexander Giheden.
+ */
 public class ControllerServer {
     private ServerLogger serverLogger;
     private Logger logger;
@@ -21,6 +25,9 @@ public class ControllerServer {
     private ContactList contactList;
     private Client connectedClient;
 
+    /**
+     * Constructor that prepares the server.
+     */
     public ControllerServer()
     {
         serverLogger = new ServerLogger(this);
@@ -39,6 +46,12 @@ public class ControllerServer {
         return now.format(formatter);
     }
 
+    /**
+     * Connects a user to the server.
+     * @param user         the User object representing the user.
+     * @param ois          the ObjectInputStream for receiving data from the client.
+     * @param clientSocket the Socket object representing the client's socket connection.
+     */
     public void connectUser(User user, ObjectInputStream ois, Socket clientSocket) {
         logger.addLogEntry("User " + user.getUsername() + " is online.");
 
@@ -48,7 +61,7 @@ public class ControllerServer {
         contactList = getContactList(user.getUsername());
         connectedClient.addMessage(contactList);
 
-        if(unsentMessages.getMessages(user) != null){
+        if(unsentMessages.getMessages(user) != null){   //checks if there are any unsent messages for the user
             ArrayList<ChatMessage> unsentMessagesUser = unsentMessages.getMessages(user);
             for (int i = 0; i < unsentMessagesUser.size(); i++) {
                 connectedClient.addMessage(unsentMessagesUser.get(i));
@@ -56,23 +69,31 @@ public class ControllerServer {
             }
         }
 
-        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
+        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {     //updates users online
             Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
             client.addMessage(onlineUserList);
         }
     }
 
+    /**
+     * Disconnects a user from the server.
+     * @param user the User object representing the user.
+     */
     public synchronized void disconnectUser(User user) {
         logger.addLogEntry("User " + user.getUsername() + " is offline.");
         onlineUserList.remove(user);
         clients.remove(user);
 
-        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
+        for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {      //updates users online
             Client client = clients.get(onlineUserList.getOnlineUsers().get(i));
             client.addMessage(onlineUserList);
         }
     }
 
+    /**
+     * Handles a received message from a client.
+     * @param message the Message object received from the client.
+     */
     public synchronized void handleMessage(Message message) {
         //loops through recipientlist for this message and checks if the user is online or not
         //if online, sends message to the clients in the recipientlist
@@ -89,10 +110,21 @@ public class ControllerServer {
         }
     }
 
+    /**
+     * Returns the serverlog within the selected hours.
+     * @param startTime hour to start showing logs from
+     * @param endTime hour to stop showing logs from
+     * @return log within the selected hours
+     */
     public String[] getServerLog(String startTime, String endTime){
         return logger.getLogEntries(startTime, endTime);
     }
 
+    /**
+     * Retrieves the contact list for the specified username.
+     * @param username the username of the user.
+     * @return the ContactList object representing the user's contact list
+     */
     public ContactList getContactList(String username){
         ArrayList<String> contacts = fileManager.readFromFile(username, "contactList.txt");
         contactList.setContactList(contacts);
@@ -100,6 +132,10 @@ public class ControllerServer {
         return contactList;
     }
 
+    /**
+     * Writes a new contact for a user to the contactList.txt-file
+     * @param contactList The ContactList object with the updated contact.
+     */
     public void writeToContactList(ContactList contactList){
         ArrayList<String> contacts = contactList.getContacts();
         String username = contacts.get(0);

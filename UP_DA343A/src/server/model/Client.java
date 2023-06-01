@@ -10,6 +10,10 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
+/**
+ * Class that represents a client connected to the server.
+ * @author Samuel Carlsson and Alexander Giheden
+ */
 public class Client
 {
     private Socket socket;
@@ -20,6 +24,13 @@ public class Client
     private ClientOutputHandler outputHandler;
     private ClientInputHandler inputHandler;
 
+    /**
+     * Constructor used to prepare a client for input and output to the server.
+     * @param socket representing the client connection
+     * @param ois used for receiving objects
+     * @param user the user connected to the client
+     * @param controllerServer controller object
+     */
     public Client(Socket socket, ObjectInputStream ois, User user, ControllerServer controllerServer)
     {
         this.socket = socket;
@@ -40,17 +51,27 @@ public class Client
         }
     }
 
+    /**
+     * Handles if a client log-outs or closes the chat to close the connection.
+     */
     private void inputConnectionDropped()
     {
         outputHandler.interrupt();
         controllerServer.disconnectUser(user);
     }
 
+    /**
+     * Adds a message to the message buffer to be sent to the client.
+     * @param message Message object to be sent to the client
+     */
     public void addMessage(Message message)
     {
         messageBuffer.put(message);
     }
 
+    /**
+     * Handles output from the server to send it to the client.
+     */
     private class ClientOutputHandler extends Thread
     {
         private Socket socket;
@@ -103,6 +124,9 @@ public class Client
         }
     }
 
+    /**
+     * Handles input from the client to send it to the server.
+     */
     private class ClientInputHandler extends Thread
     {
         private ObjectInputStream ois;

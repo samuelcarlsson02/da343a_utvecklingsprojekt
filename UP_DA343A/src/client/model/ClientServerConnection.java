@@ -10,6 +10,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+/**
+ * The ClientServerConnection class handles the client's connection to the server, sending and receiving data.
+ * @author Samuel Carlsson and Alexander Giheden
+ */
 public class ClientServerConnection {
     private ControllerClient controller;
     private String ip;
@@ -18,6 +22,12 @@ public class ClientServerConnection {
     private ClientInput clientInput;
     private ServerOutput serverOutput;
 
+    /**
+     * Constructor that prepares the connection between server and client.
+     * @param controller The controller object.
+     * @param ip         The IP address of the server.
+     * @param port       The port number of the server.
+     */
     public ClientServerConnection(ControllerClient controller, String ip, int port) {
         this.controller = controller;
         this.ip = ip;
@@ -31,6 +41,11 @@ public class ClientServerConnection {
         }
     }
 
+    /**
+     * Connects the user to the server.
+     * @param user The User object representing the logged-in user.
+     * @return true if the connection is successful, false otherwise.
+     */
     public boolean connectUser(User user) {
         clientInput.setUser(user);
         clientInput.start();
@@ -41,6 +56,9 @@ public class ClientServerConnection {
         return false;
     }
 
+    /**
+     * Disconnects the client/user from the server.
+     */
     public void disconnect(){
         clientInput.interrupt();
         serverOutput.interrupt();
@@ -51,12 +69,18 @@ public class ClientServerConnection {
         }
     }
 
+    /**
+     * Adds a message-object to the message buffer to be sent to the server.
+     * @param message The Message object to be sent.
+     */
     public void addMessage(Message message) {
         clientInput.addMessage(message);
     }
 
 
-    //sending data to server
+    /**
+     * The ClientInput class handles sending data to the server.
+     */
     private class ClientInput extends Thread {
         private Socket socket;
         private User user;
@@ -98,7 +122,9 @@ public class ClientServerConnection {
         }
     }
 
-    // listening and receiving data from server
+    /**
+     * The ServerOutput class listens and receives data from the server.
+     */
     private class ServerOutput extends Thread {
         private Socket socket;
         private ObjectInputStream ois;
