@@ -32,4 +32,8 @@ public class ContactList extends Message{
     public ArrayList<String> getContacts() {
         return contactList;
     }
+
+    public String getAddedContact(){
+        return contactList.get(1);
+    }
 }

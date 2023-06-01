@@ -1,10 +1,7 @@
 package server.controller;
 
-import model.ContactList;
-import model.OnlineUserList;
+import model.*;
 import server.model.*;
-import model.Message;
-import model.User;
 import server.view.ServerLogger;
 
 import javax.swing.*;
@@ -57,6 +54,14 @@ public class ControllerServer {
         onlineUserList.add(user);
         contactList = getContactList(user.getUsername());
         connectedClient.updateContactList(contactList);
+
+        if(unsentMessages.getMessage(user) != null){
+            ArrayList<ChatMessage> unsentMessagesUser = unsentMessages.getUnsentMessagesFromUser(user);
+            for (int i = 0; i < unsentMessagesUser.size(); i++) {
+                connectedClient.sendMessage(unsentMessagesUser.get(i));
+                unsentMessages.removeMessage(user, unsentMessagesUser.get(i));
+            }
+        }
 
         for (int i = 0; i < onlineUserList.getOnlineUsers().size(); i++) {
             System.out.println(onlineUserList.getOnlineUsers().get(i).getUsername());
@@ -114,7 +119,7 @@ public class ControllerServer {
                 client.sendMessage(message);
             } else {
                 System.out.println("Recipient not found");
-                unsentMessages.putMessage(user, message);
+                unsentMessages.putMessage(user, (ChatMessage) message);
             }
         }
     }

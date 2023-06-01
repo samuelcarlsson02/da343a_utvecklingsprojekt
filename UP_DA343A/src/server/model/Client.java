@@ -91,18 +91,18 @@ public class Client
                         oos.writeObject(onlineUserList);
                         oos.flush();
                         oos.reset();
-                        logger.addLogEntry("Online users updated.");
+                        logger.addLogEntry("Online users updated for " + user.getUsername());
                         System.out.println("Size when sending to client = " + onlineUserList.getOnlineUsers().size());
                     } else if (message instanceof ChatMessage chatMessage) {
                         oos.writeObject(chatMessage);
                         oos.flush();
                         oos.reset();
-                        logger.addLogEntry("Message received: " + message);
+                        logger.addLogEntry("Message received for " + user.getUsername() + ": " + message);
                     } else if (message instanceof ContactList contactList) {
                         oos.writeObject(contactList);
                         oos.flush();
                         oos.reset();
-                        logger.addLogEntry("Contacts updated.");
+                        logger.addLogEntry("Contacts updated for " + user.getUsername());
                     }
                 }
             } catch (SocketException | SocketTimeoutException e) {
@@ -142,7 +142,7 @@ public class Client
                         logger.addLogEntry("Message sent: " + chatMessage);
                         controllerServer.handleMessage(chatMessage);
                     } else if (message instanceof ContactList contactList) {
-                        logger.addLogEntry("Adding contact");
+                        logger.addLogEntry(user.getUsername() + " added " + contactList.getAddedContact() + " to contact list");
                         controllerServer.writeToContactList(contactList);
                     }
                 }

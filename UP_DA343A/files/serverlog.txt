@@ -287,3 +287,190 @@
 2023-05-29 13:54:04: User test2 is offline.
 2023-05-29 13:54:04: Online users updated.
 2023-05-29 13:54:06: User test is offline.
+2023-06-01 09:51:29: User samuel is online.
+2023-06-01 09:51:29: Contacts updated for samuel
+2023-06-01 09:51:29: Online users updated for samuel
+2023-06-01 09:52:07: User hej is online.
+2023-06-01 09:52:07: Contacts updated for hej
+2023-06-01 09:52:07: Online users updated for samuel
+2023-06-01 09:52:07: Online users updated for hej
+2023-06-01 09:52:15: samuel added a new contact
+2023-06-01 09:58:01: User samuel is online.
+2023-06-01 09:58:01: Contacts updated for samuel
+2023-06-01 09:58:01: Online users updated for samuel
+2023-06-01 09:58:13: User test is online.
+2023-06-01 09:58:13: Contacts updated for test
+2023-06-01 09:58:13: Online users updated for samuel
+2023-06-01 09:58:13: Online users updated for test
+2023-06-01 09:58:19: test added samuel to contact list
+2023-06-01 09:59:26: User test2 is online.
+2023-06-01 09:59:26: Contacts updated for test2
+2023-06-01 09:59:26: Online users updated for samuel
+2023-06-01 09:59:26: Online users updated for test
+2023-06-01 09:59:26: Online users updated for test2
+2023-06-01 09:59:30: test2 added samuel to contact list
+2023-06-01 09:59:31: test2 added test to contact list
+2023-06-01 10:02:18: User samuel is online.
+2023-06-01 10:02:18: Contacts updated for samuel
+2023-06-01 10:02:18: Online users updated for samuel
+2023-06-01 10:02:29: User test3 is online.
+2023-06-01 10:02:29: Contacts updated for test3
+2023-06-01 10:02:29: Online users updated for samuel
+2023-06-01 10:02:29: Online users updated for test3
+2023-06-01 10:02:38: test3 added samuel to contact list
+2023-06-01 10:02:47: User test3 is offline.
+2023-06-01 10:02:47: Online users updated for samuel
+2023-06-01 10:02:48: User samuel is offline.
+2023-06-01 10:17:27: User samuel is online.
+2023-06-01 10:17:27: Contacts updated for samuel
+2023-06-01 10:17:27: Online users updated for samuel
+2023-06-01 10:17:41: Message sent: 'hej Tim!', from: samuel, to: tim
+2023-06-01 10:17:54: User tim is online.
+2023-06-01 10:17:54: Contacts updated for tim
+2023-06-01 10:17:54: Message received: 'hej Tim!', from: samuel, to: tim
+2023-06-01 10:17:54: Online users updated for samuel
+2023-06-01 10:17:54: Online users updated for tim
+2023-06-01 10:18:13: User samuel is offline.
+2023-06-01 10:18:13: Online users updated for tim
+2023-06-01 10:18:25: Message sent: 'hej Samuel', from: tim, to: samuel
+2023-06-01 10:18:28: User samuel is online.
+2023-06-01 10:18:28: Contacts updated for samuel
+2023-06-01 10:18:28: Online users updated for tim
+2023-06-01 10:18:28: Message received: 'hej Samuel', from: tim, to: samuel
+2023-06-01 10:18:28: Online users updated for samuel
+2023-06-01 10:18:34: User samuel is offline.
+2023-06-01 10:18:34: Online users updated for tim
+2023-06-01 10:18:38: User alex is online.
+2023-06-01 10:18:38: Contacts updated for alex
+2023-06-01 10:18:38: Online users updated for tim
+2023-06-01 10:18:38: Online users updated for alex
+2023-06-01 10:19:01: User alex is offline.
+2023-06-01 10:19:01: Online users updated for tim
+2023-06-01 10:19:05: User tim is offline.
+2023-06-01 10:25:31: User samuel is online.
+2023-06-01 10:25:31: Contacts updated for samuel
+2023-06-01 10:25:31: Online users updated for samuel
+2023-06-01 10:25:58: Message sent: 'hej tim vad gör du', from: samuel, to: tim
+2023-06-01 10:26:04: User  is online.
+2023-06-01 10:26:04: Contacts updated for 
+2023-06-01 10:26:04: Online users updated for samuel
+2023-06-01 10:26:04: Online users updated for 
+2023-06-01 10:26:10: User  is offline.
+2023-06-01 10:26:10: Online users updated for samuel
+2023-06-01 10:26:17: User tim is online.
+2023-06-01 10:26:17: Contacts updated for tim
+2023-06-01 10:26:17: Online users updated for samuel
+2023-06-01 10:26:17: Message received: 'hej tim vad gör du', from: samuel, to: tim
+2023-06-01 10:26:17: Online users updated for tim
+2023-06-01 10:26:35: Message sent: 'inte mycket, vad gör du?', from: tim, to: samuel
+2023-06-01 10:26:35: Message received: 'inte mycket, vad gör du?', from: tim, to: samuel
+2023-06-01 10:26:41: User tim is offline.
+2023-06-01 10:26:41: Online users updated for samuel
+2023-06-01 10:26:46: User alex is online.
+2023-06-01 10:26:46: Contacts updated for alex
+2023-06-01 10:26:46: Online users updated for samuel
+2023-06-01 10:26:46: Online users updated for alex
+2023-06-01 10:27:01: User alex is offline.
+2023-06-01 10:27:01: Online users updated for samuel
+2023-06-01 10:27:02: User samuel is offline.
+2023-06-01 10:27:05: User samuel is online.
+2023-06-01 10:27:05: Contacts updated for samuel
+2023-06-01 10:27:05: Online users updated for samuel
+2023-06-01 10:27:14: User tim is online.
+2023-06-01 10:27:14: Contacts updated for tim
+2023-06-01 10:27:14: Online users updated for samuel
+2023-06-01 10:27:14: Message received: 'hej tim vad gör du', from: samuel, to: tim
+2023-06-01 10:27:14: Online users updated for tim
+2023-06-01 10:27:57: User tim is offline.
+2023-06-01 10:27:57: Online users updated for samuel
+2023-06-01 10:27:58: User samuel is offline.
+2023-06-01 10:30:18: User samuel is online.
+2023-06-01 10:30:18: Contacts updated for samuel
+2023-06-01 10:30:18: Online users updated for samuel
+2023-06-01 10:30:29: User alex is online.
+2023-06-01 10:30:29: Contacts updated for alex
+2023-06-01 10:30:29: Online users updated for samuel
+2023-06-01 10:30:29: Online users updated for alex
+2023-06-01 10:30:45: Message sent: 'hej alex', from: samuel, to: alex
+2023-06-01 10:30:45: Message received: 'hej alex', from: samuel, to: alex
+2023-06-01 10:30:56: User samuel is offline.
+2023-06-01 10:30:56: Online users updated for alex
+2023-06-01 10:31:04: Message sent: 'hej!', from: alex, to: samuel
+2023-06-01 10:31:13: User samuel is online.
+2023-06-01 10:31:13: Contacts updated for samuel
+2023-06-01 10:31:13: Online users updated for alex
+2023-06-01 10:31:13: Message received: 'hej!', from: alex, to: samuel
+2023-06-01 10:31:13: Online users updated for samuel
+2023-06-01 10:31:15: User samuel is offline.
+2023-06-01 10:31:15: Online users updated for alex
+2023-06-01 10:31:16: User samuel is online.
+2023-06-01 10:31:17: Contacts updated for samuel
+2023-06-01 10:31:17: Online users updated for alex
+2023-06-01 10:31:17: Online users updated for samuel
+2023-06-01 10:31:49: User samuel is offline.
+2023-06-01 10:31:49: Online users updated for alex
+2023-06-01 10:32:22: Message sent: 'hej grabbar', from: alex, to: tim, samuel
+2023-06-01 10:32:28: User tim is online.
+2023-06-01 10:32:28: Contacts updated for tim
+2023-06-01 10:32:28: Online users updated for alex
+2023-06-01 10:32:28: Message received: 'hej grabbar', from: alex, to: tim, samuel
+2023-06-01 10:32:28: Online users updated for tim
+2023-06-01 10:32:30: User samuel is online.
+2023-06-01 10:32:30: Contacts updated for samuel
+2023-06-01 10:32:30: Message received: 'hej grabbar', from: alex, to: tim, samuel
+2023-06-01 10:32:30: Online users updated for alex
+2023-06-01 10:32:30: Online users updated for tim
+2023-06-01 10:32:30: Online users updated for samuel
+2023-06-01 10:32:53: User samuel is offline.
+2023-06-01 10:32:53: Online users updated for alex
+2023-06-01 10:32:53: Online users updated for tim
+2023-06-01 10:32:53: User tim is offline.
+2023-06-01 10:32:53: Online users updated for alex
+2023-06-01 10:32:56: User alex is offline.
+2023-06-01 10:32:58: User alex is online.
+2023-06-01 10:32:58: Contacts updated for alex
+2023-06-01 10:32:58: Online users updated for alex
+2023-06-01 10:33:13: User alex is offline.
+2023-06-01 10:33:15: User alex is online.
+2023-06-01 10:33:15: Contacts updated for alex
+2023-06-01 10:33:15: Online users updated for alex
+2023-06-01 10:33:40: User tim is online.
+2023-06-01 10:33:40: Contacts updated for tim
+2023-06-01 10:33:40: Online users updated for alex
+2023-06-01 10:33:40: Online users updated for tim
+2023-06-01 10:33:44: User tim is offline.
+2023-06-01 10:33:44: Online users updated for alex
+2023-06-01 10:33:45: User tim is online.
+2023-06-01 10:33:45: Contacts updated for tim
+2023-06-01 10:33:45: Online users updated for alex
+2023-06-01 10:33:45: Online users updated for tim
+2023-06-01 10:33:57: Message sent: 'tja!', from: tim, to: alex, samuel
+2023-06-01 10:33:57: Message received: 'tja!', from: tim, to: alex, samuel
+2023-06-01 10:34:49: User samuel is online.
+2023-06-01 10:34:49: Contacts updated for samuel
+2023-06-01 10:34:49: Online users updated for tim
+2023-06-01 10:34:49: Online users updated for alex
+2023-06-01 10:34:49: Message received: 'tja!', from: tim, to: alex, samuel
+2023-06-01 10:34:49: Online users updated for samuel
+2023-06-01 10:37:15: User samuel is online.
+2023-06-01 10:37:15: Contacts updated for samuel
+2023-06-01 10:37:15: Online users updated for samuel
+2023-06-01 10:37:22: User tim is online.
+2023-06-01 10:37:22: Contacts updated for tim
+2023-06-01 10:37:22: Online users updated for samuel
+2023-06-01 10:37:22: Online users updated for tim
+2023-06-01 10:37:27: User tim is offline.
+2023-06-01 10:37:27: Online users updated for samuel
+2023-06-01 10:37:39: Message sent: 'tjenare', from: samuel, to: tim, alex
+2023-06-01 10:37:47: User tim is online.
+2023-06-01 10:37:47: Contacts updated for tim
+2023-06-01 10:37:47: Message received for tim: 'tjenare', from: samuel, to: tim, alex
+2023-06-01 10:37:47: Online users updated for tim
+2023-06-01 10:37:47: Online users updated for samuel
+2023-06-01 10:38:09: User tim is offline.
+2023-06-01 10:38:09: Online users updated for samuel
+2023-06-01 10:38:12: User alex is online.
+2023-06-01 10:38:12: Contacts updated for alex
+2023-06-01 10:38:12: Online users updated for samuel
+2023-06-01 10:38:12: Message received for alex: 'tjenare', from: samuel, to: tim, alex
+2023-06-01 10:38:12: Online users updated for alex

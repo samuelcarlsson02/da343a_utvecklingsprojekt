@@ -248,7 +248,23 @@ public class ClientChat extends javax.swing.JFrame {
     }
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt){
+        clearEverything();
         controllerClient.loggedOut();
+    }
+
+    public void clearEverything(){
+        receiversList.setModel(new DefaultListModel<>());
+        receiverModel.clear();
+        contactsList.setModel(new DefaultListModel<>());
+        contactListModel.clear();
+        usersOnlineList.setModel(new DefaultListModel<>());
+        userModel.clear();
+        chatMessagesList.setModel(new DefaultListModel<>());
+        chatModel.clear();
+
+        messagePane.setText(null);
+        choosePictureBtn.setIcon(null);
+        choosePictureBtn.setText("Choose picture");
     }
 
     public void showNewMessage(ChatMessage chatMessage){
@@ -292,6 +308,7 @@ public class ClientChat extends javax.swing.JFrame {
         controllerClient.addToContactList(user.getUsername());
         contactListModel.addElement(user.getUsername());
         contactsList.setModel(contactListModel);
+        usersOnlineList.clearSelection();
     }
 
     public void displayContactList(ArrayList<String> contactListArrayList){
